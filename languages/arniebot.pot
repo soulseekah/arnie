@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: A.R.N.I.E \n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plugin\n"
-"POT-Creation-Date: 2018-04-21 08:15:21+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/npobot\n"
+"POT-Creation-Date: 2018-04-21 14:03:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,66 +12,142 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bot.php:53 bot.php:55
-msgid "Bots"
-msgstr ""
-
-#: bot.php:56
-msgid "Bot"
-msgstr ""
-
-#: bot.php:58
-msgid "Add New Bot"
-msgstr ""
-
-#: bot.php:59
-msgid "Edit Bot"
-msgstr ""
-
-#: bot.php:60
-msgid "New Bot"
-msgstr ""
-
-#: bot.php:61 bot.php:62
-msgid "No bots found"
-msgstr ""
-
-#: bot.php:63
-msgid "All Bots"
-msgstr ""
-
-#: bot.php:65
-msgid "A patient chat bot."
-msgstr ""
-
-#: bot.php:85
-msgid "Bot Properties"
-msgstr ""
-
-#: bot.php:102
-msgid "A bot with this ID does not exist"
-msgstr ""
-
-#: core.php:38
-msgid "The session ID for this conversation."
-msgstr ""
-
-#: core.php:42
-msgid "The message to the bot."
-msgstr ""
-
-#: core.php:77
-msgid "This method is not supported."
-msgstr ""
-
-#: plugin.php:24
+#: arniebot.php:24
 msgid ""
 "A.R.N.I.E requires PHP Version 5.3.0 or higher. Please contact your web host "
 "and ask them to upgrade your server."
 msgstr ""
 
-#: vendor/htmlburger/carbon-fields/core/Container/Container.php:711
+#: bot.php:136
+msgid "A patient chat bot."
+msgstr ""
+
+#: bot.php:137 bot.php:139
+msgid "Bots"
+msgstr ""
+
+#: bot.php:140
+msgid "Bot"
+msgstr ""
+
+#: bot.php:142
+msgid "Add New Bot"
+msgstr ""
+
+#: bot.php:143
+msgid "Edit Bot"
+msgstr ""
+
+#: bot.php:144
+msgid "New Bot"
+msgstr ""
+
+#: bot.php:145 bot.php:146
+msgid "No bots found"
+msgstr ""
+
+#: bot.php:147
+msgid "All Bots"
+msgstr ""
+
+#: bot.php:166 vendor/htmlburger/carbon-fields/core/Container/Container.php:711
 msgid "General"
+msgstr ""
+
+#: bot.php:169
+msgid "Bot description"
+msgstr ""
+
+#: bot.php:170
+msgid "A short description for this bot."
+msgstr ""
+
+#: bot.php:173
+msgid "Script Generics / Bot Introduction"
+msgstr ""
+
+#: bot.php:176
+msgid "Bot Introductions"
+msgstr ""
+
+#: bot.php:177
+msgid "The bot will randomly pick one of these when starting a conversation."
+msgstr ""
+
+#: bot.php:179 bot.php:183 bot.php:195 bot.php:204
+msgid "Responses"
+msgstr ""
+
+#: bot.php:181 bot.php:202
+msgid "Response line"
+msgstr ""
+
+#: bot.php:183 bot.php:204
+msgid "Response"
+msgstr ""
+
+#: bot.php:185
+msgid "Introductions"
+msgstr ""
+
+#: bot.php:185
+msgid "Introduction"
+msgstr ""
+
+#: bot.php:189
+msgid "Script Generics / Bot Farewells"
+msgstr ""
+
+#: bot.php:192
+msgid "Bot Farewells"
+msgstr ""
+
+#: bot.php:193
+msgid "The bot will randomly pick one of these to say goodbye."
+msgstr ""
+
+#: bot.php:197 bot.php:201
+msgid "Patterns"
+msgstr ""
+
+#: bot.php:199 bot.php:201
+msgid "Pattern"
+msgstr ""
+
+#: bot.php:206
+msgid "Farewells"
+msgstr ""
+
+#: bot.php:206
+msgid "Farewell"
+msgstr ""
+
+#: bot.php:225
+msgid "A bot with this ID does not exist"
+msgstr ""
+
+#: bot.php:301
+msgid "Invalid state for bot."
+msgstr ""
+
+#: bot.php:334
+msgid "A hello response has not been defined for this bot."
+msgstr ""
+
+#: bot.php:357
+msgid "An idle response has not been defined for this bot..."
+msgstr ""
+
+#: core.php:40
+msgid "The session state for this conversation JSON in base64."
+msgstr ""
+
+#: core.php:44
+msgid "The message to the bot."
+msgstr ""
+
+#: core.php:96
+msgid "This method is not supported."
 msgstr ""
 
 #: vendor/htmlburger/carbon-fields/core/Container/Theme_Options_Container.php:207

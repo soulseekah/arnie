@@ -330,6 +330,8 @@ class Bot {
 			$this->state['last'] = time(); /** Rehandle the message if any. */
 			if ( $hello_responses ) {
 				$response = array_merge( $response, $hello_responses[ array_rand( $hello_responses ) ], $this->handle( $message ) );
+			} else {
+				$response = array_merge( $response, __( 'A hello response has not been defined for this bot.', 'arniebot' ) );
 			}
 
 		/**
@@ -351,6 +353,8 @@ class Bot {
 
 				if ( $idle_responses ) {
 					$response = array_merge( $response, $idle_responses[ array_rand( $idle_responses ) ] );
+				} else {
+					$response = array_merge( $response, __( 'An idle response has not been defined for this bot...', 'arniebot' ) );
 				}
 			}
 
@@ -360,6 +364,18 @@ class Bot {
 		} else {
 			$this->state['last'] = time();
 			$this->state['idle'] = false;
+
+			/** Pick a default responce (UDC). */
+			$idle_responses = array();
+			foreach ( $this->get_field( self::$FIELDS['generics']['udc_responses'] ) as $udc_response ) {
+				$udc_responses[] = wp_list_pluck( $udc_response[ self::$FIELDS['generics']['udc_response'] ], self::$FIELDS['generics']['udc_response_line'] );
+			}
+
+			if ( $udc_responses ) {
+				$response = array_merge( $response, $udc_responses[ array_rand( $udc_responses ) ] );
+			} else {
+				$response = array_merge( $response, __( 'A UDC response has not been defined for this bot.', 'arniebot' ) );
+			}
 		}
 
 		$response = array_filter( $response );

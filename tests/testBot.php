@@ -94,5 +94,29 @@ class Bot_Test extends \WP_UnitTestCase {
 				array( 'Silence is golden.' ),
 			)
 		);
+
+		$state = $bot->dump_state();
+		$this->assertTrue( $state['idle'] );
+
+		$state['last'] = time() - 170;
+		$bot->load_state( $state );
+
+		$response = $bot->handle( '' );
+		
+		$this->assertEmpty( $response );
+	}
+
+	public function test_udc() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+		$response = $bot->handle( '' );
+
+		$response = $bot->handle( '私はロボットです' );
+
+		$this->assertContains( $response,
+			array(
+				array( 'Sorry what?' ),
+				array( "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." ),
+			)
+		);
 	}
 }
