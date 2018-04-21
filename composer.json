@@ -1,0 +1,8 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "^6"
+    },
+    "require": {
+        "htmlburger/carbon-fields": "^2.2"
+    }
+}
