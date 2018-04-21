@@ -297,7 +297,17 @@ class Bot {
 			return __( 'A bot with this ID does not exist', 'arniebot' );
 		}
 
-		return 'Hello :)';
+        wp_enqueue_script('arniebot', plugins_url( '/js/arniebot.js', __FILE__ ) );
+        wp_enqueue_style('arniebot', plugins_url( '/css/arniebot.css', __FILE__ ) );
+
+        $htmlBotInit = '<div class="arniebot" data-bot-id="' . $atts[ 'id' ] . '">
+                <div class="arniebot__chat"></div>
+                <form class="arniebot__client-form">
+                    <textarea class="client-board__message"></textarea><br>
+                    <input class="client-board__message__send" type="submit" value="Отправить" >
+                </form>
+                </div>';
+        return $htmlBotInit;
 	}
 
 	/**
