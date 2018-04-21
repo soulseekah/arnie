@@ -71,4 +71,28 @@ class Bot_Test extends \WP_UnitTestCase {
 		$this->assertEmpty( $bot->handle( '' ) );
 	}
 
+	public function test_idle() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+		$response = $bot->handle( '' );
+
+		$state = $bot->dump_state();
+		$state['last'] = time() - 30;
+		$bot->load_state( $state );
+
+		$this->assertEmpty( $bot->handle( '' ) );
+
+		$state = $bot->dump_state();
+		$state['last'] = time() - 70;
+		$bot->load_state( $state );
+
+		$response = $bot->handle( '' );
+
+		$this->assertContains( $response,
+			array(
+				array( 'You still there?' ),
+				array( 'Hello?' ),
+				array( 'Silence is golden.' ),
+			)
+		);
+	}
 }
