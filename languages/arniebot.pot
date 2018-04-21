@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: A.R.N.I.E \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/npobot\n"
-"POT-Creation-Date: 2018-04-21 14:26:29+00:00\n"
+"POT-Creation-Date: 2018-04-21 14:36:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "All Bots"
 msgstr ""
 
-#: bot.php:166
+#: bot.php:166 vendor/htmlburger/carbon-fields/core/Container/Container.php:711
 msgid "General"
 msgstr ""
 
@@ -70,20 +70,20 @@ msgstr ""
 msgid "Bot Introductions"
 msgstr ""
 
-#: bot.php:177 bot.php:216 bot.php:233 bot.php:250
+#: bot.php:177
 msgid "The bot will randomly pick one of these when starting a conversation."
 msgstr ""
 
 #: bot.php:179 bot.php:183 bot.php:195 bot.php:199 bot.php:218 bot.php:222
-#: bot.php:235 bot.php:239
+#: bot.php:234 bot.php:238
 msgid "Responses"
 msgstr ""
 
-#: bot.php:181 bot.php:197 bot.php:220 bot.php:237
+#: bot.php:181 bot.php:197 bot.php:220 bot.php:236
 msgid "Response line"
 msgstr ""
 
-#: bot.php:183 bot.php:199 bot.php:222 bot.php:239
+#: bot.php:183 bot.php:199 bot.php:222 bot.php:238
 msgid "Response"
 msgstr ""
 
@@ -107,11 +107,11 @@ msgstr ""
 msgid "The bot will randomly pick one of these to say goodbye."
 msgstr ""
 
-#: bot.php:200 bot.php:204 bot.php:252
+#: bot.php:200 bot.php:204 bot.php:250 bot.php:252 bot.php:262 bot.php:264
 msgid "Patterns"
 msgstr ""
 
-#: bot.php:202 bot.php:204
+#: bot.php:202 bot.php:204 bot.php:252 bot.php:264
 msgid "Pattern"
 msgstr ""
 
@@ -124,66 +124,79 @@ msgid "Farewell"
 msgstr ""
 
 #: bot.php:212
-msgid "Script Generics / Bot Udc"
+msgid "Script Generics / Bot UDC"
 msgstr ""
 
 #: bot.php:215
-msgid "Bot Udces"
+msgid "Bot UDC Responses"
+msgstr ""
+
+#: bot.php:216
+msgid ""
+"The bot will randomly pick one of these when it doesn't know what to respond."
 msgstr ""
 
 #: bot.php:224
-msgid "Udces"
+msgid "UDC"
 msgstr ""
 
-#: bot.php:224
-msgid "Udc"
+#: bot.php:228
+msgid "Script Generics / Bot Idle"
 msgstr ""
 
-#: bot.php:229
-msgid "Script Generics / Bot idle"
+#: bot.php:231
+msgid "Bot Idle Responses"
 msgstr ""
 
 #: bot.php:232
-msgid "Bot idles"
+msgid "The bot will randomly pick one of these when everyone is bored."
 msgstr ""
 
-#: bot.php:241
-msgid "idles"
+#: bot.php:240
+msgid "Idle Responses"
 msgstr ""
 
-#: bot.php:241
-msgid "Idle"
+#: bot.php:240
+msgid "Idle Response"
 msgstr ""
 
-#: bot.php:246
-msgid "Script Generics / Bot yes"
+#: bot.php:244
+msgid "Script Generics / Bot Yes"
 msgstr ""
 
-#: bot.php:249
-msgid "Bot yes"
+#: bot.php:247
+msgid "Bot Yes Patterns"
 msgstr ""
 
-#: bot.php:254
-msgid "yes"
+#: bot.php:248 bot.php:260
+msgid "An affirmative answer to the question at hand."
 msgstr ""
 
-#: bot.php:273
+#: bot.php:256
+msgid "Script Generics / Bot No"
+msgstr ""
+
+#: bot.php:259
+msgid "Bot No Patterns"
+msgstr ""
+
+#: bot.php:283
 msgid "A bot with this ID does not exist"
 msgstr ""
 
-#: bot.php:349
+#: bot.php:359
 msgid "Invalid state for bot."
 msgstr ""
 
-#: bot.php:382
+#: bot.php:392
 msgid "A hello response has not been defined for this bot."
 msgstr ""
 
-#: bot.php:405
+#: bot.php:415
 msgid "An idle response has not been defined for this bot..."
 msgstr ""
 
-#: bot.php:425
+#: bot.php:435
 msgid "A UDC response has not been defined for this bot."
 msgstr ""
 
@@ -197,6 +210,298 @@ msgstr ""
 
 #: core.php:96
 msgid "This method is not supported."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Container/Theme_Options_Container.php:207
+msgid "Settings saved."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Field/Footer_Scripts_Field.php:20
+msgid ""
+"If you need to add scripts to your footer (like Google Analytics tracking "
+"code), you should enter them in this box."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Field/Gravity_Form_Field.php:47
+msgid "No form"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Field/Header_Scripts_Field.php:20
+msgid "If you need to add scripts to your header, you should enter them here."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Field/Sidebar_Field.php:74
+msgctxt "sidebar"
+msgid "Add New"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Helper/Helper.php:586
+msgid "F j, Y"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:69
+msgid "Please enter a name for the sidebar."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:72
+msgid "Unknown action attempted."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:102
+msgid "Sidebar with the same ID is already registered."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:112
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:142
+msgid ""
+"Failed to update option storing your custom sidebars. Please contact support."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:137
+msgid "Sidebar not found."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:181
+msgid "Add Sidebar"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:182
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:154
+msgid "Please enter the name of the new sidebar:"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Libraries/Sidebar_Manager/Sidebar_Manager.php:183
+msgid "Are you sure you wish to remove this sidebar?"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:129
+msgid "Please fill out all required fields highlighted below."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:130
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:134
+msgid "The address could not be found. "
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:135
+msgid "Geocode was not successful for the following reason: "
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:136
+msgid "Locate address on the map:"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:137
+msgid "Minimum number of items not reached (%s items)"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:138
+msgid "Maximum number of items reached (%s items)"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:140
+msgid "There are no %s yet. Click <a href=\"#\">here</a> to add one."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:141
+msgid "Minimum number of rows not reached (%1$d %2$s)"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:142
+msgid "Maximum number of rows exceeded (%1$d %2$s)"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:143
+msgctxt "Complex field"
+msgid "Add %s"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:144
+msgctxt "Complex field"
+msgid "Clone"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:145
+msgctxt "Complex field"
+msgid "Remove"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:146
+msgctxt "Complex field"
+msgid "Collapse/Expand"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:147
+msgctxt "Complex field groups"
+msgid "Collapse All"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:148
+msgctxt "Complex field groups"
+msgid "Expand All"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:150
+msgid "Please fill out all fields correctly. "
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:151
+msgid "This field is required. "
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:152
+msgid "Please choose an option. "
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:156
+msgid "Select Time"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:157
+msgid "Select Date"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:159
+msgid "%1$d selected item"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:160
+msgid "%1$d selected items"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:161
+msgid "%1$d selected item out of %2$d"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:162
+msgid "%1$d selected items out of %2$d"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:164
+msgid "Select a color"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:166
+msgid "No options."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:168
+msgid "Show all options"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:170
+msgid "Search..."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:172
+msgctxt "WordPress media attachment"
+msgid "URL"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:173
+msgctxt "WordPress media attachment"
+msgid "Title"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:174
+msgctxt "WordPress media attachment"
+msgid "Artist"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:175
+msgctxt "WordPress media attachment"
+msgid "Album"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:176
+msgctxt "WordPress media attachment"
+msgid "Caption"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:177
+msgctxt "WordPress media attachment"
+msgid "Alt Text"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:178
+msgctxt "WordPress media attachment"
+msgid "Description"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:179
+msgctxt "WordPress media attachment"
+msgid "Close"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:180
+msgctxt "WordPress media attachment"
+msgid "Save"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:182
+msgctxt "oEmbed field"
+msgid "Not Found"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:184
+msgid "No files selected."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:185
+msgid "Add File"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:186
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:190
+msgctxt "WordPress Media Browser"
+msgid "Files"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:187
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:191
+msgctxt "WordPress Media Browser"
+msgid "Select File"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:189
+msgid "Select File"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:193
+msgid "Select Image"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:194
+msgctxt "WordPress Media Browser"
+msgid "Images"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/Loader/Loader.php:195
+msgctxt "WordPress Media Browser"
+msgid "Select Image"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/REST_API/Router.php:287
+msgid "No option names provided"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/core/REST_API/Router.php:298
+msgid "Theme Options updated."
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/templates/Container/common/options-page.php:34
+msgid "Actions"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/templates/Container/common/options-page.php:43
+msgid "Save Changes"
+msgstr ""
+
+#: vendor/htmlburger/carbon-fields/templates/Container/widget.php:4
+msgid "No options are available for this widget."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
