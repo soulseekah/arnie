@@ -22,8 +22,10 @@ class Bot {
 
 	/**
 	 * @var array The state of this bot. Fields:
-	 *                bid  The bot ID.
-	 *                cuid A universally unique identifier for this conversation.
+	 *                bid    The bot ID.
+	 *                cuid   A universally unique identifier for this conversation.
+	 *                topic  The current topic.
+	 *                last   The last time anything was handled.
 	 */
 	private $state = array();
 
@@ -100,6 +102,8 @@ class Bot {
 		$this->state = array(
 			'bid'    => $this->ID,
 			'cuid'   => '',
+			'topic'  => '',
+			'last'   => null,
 		);
 	}
 
@@ -296,5 +300,59 @@ class Bot {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Handle an incoming message.
+	 *
+	 * @param string $message The incoming message as text.
+	 *
+	 * @return string[] An array of responses.
+	 */
+	public function handle( $message ) {
+
+		$response = array();
+
+		/**
+		 * A new conversation with an empty message.
+		 * Greet.
+		 */
+		if ( ! $this->state['last'] ) {
+
+			/** Pick a greeting. */
+			$hello_responses = array();
+			foreach ( $this->get_field( self::$FIELDS['generics']['hello_responses'] ) as $hello_response ) {
+				$hello_responses[] = wp_list_pluck( $hello_response[ self::$FIELDS['generics']['hello_response'] ], self::$FIELDS['generics']['hello_response_line'] );
+			}
+
+			$this->state['last'] = time(); /** Rehandle the message if any. */
+			$response = array_merge( $response, $hello_responses[ array_rand( $hello_responses ) ], $this->handle( $message ) );
+
+		/**
+		 * An empty message, a ping of sorts.
+		 * Maybe idle. Otherwise return nothing.
+		 */
+		} elseif ( ! $message ) {
+
+		/**
+		 * There's a message.
+		 */
+		} else {
+		}
+
+		$this->state['last'] = time();
+
+		return array_filter( $response );
+	}
+
+	/**
+	 * Retrieve a field.
+	 *
+	 * @param string $key The key.
+	 *
+	 * @return mixed
+	 */
+	public function get_field( $key ) {
+		return carbon_get_post_meta( $this->ID, $key );
 	}
 }
