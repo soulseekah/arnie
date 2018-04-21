@@ -1,0 +1,210 @@
+# Copyright (C) 2018 A.R.N.I.E
+# This file is distributed under the same license as the A.R.N.I.E package.
+msgid ""
+msgstr ""
+"Project-Id-Version: A.R.N.I.E\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/npobot\n"
+"POT-Creation-Date: 2018-04-21 15:23:42+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-04-21 16:41+0000\n"
+"Last-Translator: doaction <gennady@kovshenin.com>\n"
+"Language-Team: Русский\n"
+"Language: ru-RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: arniebot.php:24
+msgid ""
+"A.R.N.I.E requires PHP Version 5.3.0 or higher. Please contact your web host "
+"and ask them to upgrade your server."
+msgstr ""
+"A.R.N.I.E. требует PHP версии 5.3.0. или выше. Пожалуйста, обратитесь к "
+"вашему хостинг-провайдеру и попросите их обновить ПО на сервере. "
+
+#: bot.php:134
+msgid "A patient chat bot."
+msgstr "Терпеливый чат бот. "
+
+#: bot.php:135 bot.php:137
+msgid "Bots"
+msgstr "Боты"
+
+#: bot.php:138
+msgid "Bot"
+msgstr "Бот"
+
+#: bot.php:140
+msgid "Add New Bot"
+msgstr "Добавить нового бота"
+
+#: bot.php:141
+msgid "Edit Bot"
+msgstr "Редактировать бот"
+
+#: bot.php:142
+msgid "New Bot"
+msgstr "Новый бот"
+
+#: bot.php:143 bot.php:144
+msgid "No bots found"
+msgstr "Ботов не найдено"
+
+#: bot.php:145
+msgid "All Bots"
+msgstr "Все боты"
+
+#: bot.php:164
+msgid "General"
+msgstr "Общее"
+
+#: bot.php:167
+msgid "Bot description"
+msgstr "Описание бота"
+
+#: bot.php:168
+msgid "A short description for this bot."
+msgstr "Короткое описание для этого бота."
+
+#: bot.php:169
+msgid "Stopwords"
+msgstr "Стоп-слова"
+
+#: bot.php:170
+msgid "A comma-separated list of words with no meaning."
+msgstr "Бессмысленные слова, разделенные запятыми"
+
+#: bot.php:173
+msgid "Script Generics / Bot Introduction"
+msgstr "Общие сценарии / Бот приветствует"
+
+#: bot.php:176
+msgid "Bot Introductions"
+msgstr "Приветствие бота"
+
+#: bot.php:177
+msgid "The bot will randomly pick one of these when starting a conversation."
+msgstr "Бот рандомно выберет одну из реплик для приветствия."
+
+#: bot.php:179 bot.php:191 bot.php:202
+msgid "Responses"
+msgstr "Ответы"
+
+#: bot.php:181
+msgid "Introductions"
+msgstr "Реплики приветствия"
+
+#: bot.php:181
+msgid "Introduction"
+msgstr "Приветствие"
+
+#: bot.php:185
+msgid "Script Generics / Bot UDC"
+msgstr "Общие сценарии / Бот тупит "
+
+#: bot.php:188
+msgid "Bot UDC Responses"
+msgstr "UDC ответы бота"
+
+#: bot.php:189
+msgid ""
+"The bot will randomly pick one of these when it doesn't know what to respond."
+msgstr ""
+
+#: bot.php:193
+msgid "UDC"
+msgstr "UDC"
+
+#: bot.php:196
+msgid "Script Generics / Bot Idle"
+msgstr "Общие сценарии / Бот отрицает"
+
+#: bot.php:199
+msgid "Bot Idle Responses"
+msgstr "Ответы ожидания"
+
+#: bot.php:200
+msgid "The bot will randomly pick one of these when everyone is bored."
+msgstr ""
+
+#: bot.php:204
+msgid "Idle Responses"
+msgstr "Реплики торможения"
+
+#: bot.php:204
+msgid "Idle Response"
+msgstr "Реплика торможения"
+
+#: bot.php:207
+msgid "Script Generics / Bot Yes"
+msgstr "Общие сценарии / Бот соглашается"
+
+#: bot.php:210
+msgid "Bot Yes Patterns"
+msgstr "Партерны положительных ответов"
+
+#: bot.php:211 bot.php:223
+msgid "An affirmative answer to the question at hand."
+msgstr "Утвердительный ответ"
+
+#: bot.php:213 bot.php:215 bot.php:225 bot.php:227
+msgid "Patterns"
+msgstr "Паттерны"
+
+#: bot.php:215 bot.php:227
+msgid "Pattern"
+msgstr "Паттерн"
+
+#: bot.php:219
+msgid "Script Generics / Bot No"
+msgstr "Общие сценарии / Бот отрицает"
+
+#: bot.php:222
+msgid "Bot No Patterns"
+msgstr "Паттерны отрицательных ответов"
+
+#: bot.php:246
+msgid "A bot with this ID does not exist"
+msgstr "Бот с таким ID не существует"
+
+#: bot.php:322
+msgid "Invalid state for bot."
+msgstr "Ошибочное состояние бота."
+
+#: bot.php:355
+msgid "A hello response has not been defined for this bot."
+msgstr "Реплика приветствия не определена для данного бота."
+
+#: bot.php:378
+msgid "An idle response has not been defined for this bot..."
+msgstr "Бот не имеет реплики для режима ожидания"
+
+#: bot.php:398
+msgid "A UDC response has not been defined for this bot."
+msgstr "Ответ из UDC не был определен для этого бота."
+
+#: core.php:40
+msgid "The session state for this conversation JSON in base64."
+msgstr "Состояние сессии для данного разговора в формате JSON в base64."
+
+#: core.php:44
+msgid "The message to the bot."
+msgstr "Сообщение для бота."
+
+#: core.php:96
+msgid "This method is not supported."
+msgstr "Этот способ не поддерживается."
+
+#. Plugin Name of the plugin/theme
+msgid "A.R.N.I.E"
+msgstr "A.R.N.I.E"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/soulseekah/arnie"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A nice chat bot that helps do nice things for nice people."
+msgstr "Милый чат бот, который помогает делать хорошие вещи хорошим людям. "

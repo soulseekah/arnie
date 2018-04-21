@@ -59,11 +59,8 @@ class Bot_Test extends \WP_UnitTestCase {
 
 		$response = $bot->handle( '' );
 
-		$this->assertContains( $response,
-			array(
-				array( 'Hello :)' ),
-				array( 'Hey there!', 'How can we help you today?' ),
-			)
+		$this->assertContains( $response[0],
+			array( 'Hello :)', 'Hey there! How can we help you today?' )
 		);
 
 		$response = $bot->handle( '' );
@@ -134,11 +131,11 @@ class Bot_Test extends \WP_UnitTestCase {
 
 		$response = $bot->handle( '私はロボットです' );
 
-		$this->assertContains( $response[ 0 ],
-			array( 'Hello', 'Hey there!' )
+		$this->assertContains( $response[0],
+			array( 'Hello :)', 'Hey there! How can we help you today?' )
 		);
 
-		$this->assertContains( $response[ count( $response ) - 1 ],
+		$this->assertContains( $response[1],
 			array( 'Sorry what?', "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." )
 		);
 	}
