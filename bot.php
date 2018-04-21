@@ -39,6 +39,8 @@ class Bot {
 	/**
 	 * @var string[] Field IDs for post meta:
 	 *                   description The internal bot description
+	 *                   stopwords   Meaningless fillers
+	 *                   humans      E-mail addresses for human notifications
 	 *                   generics
 	 *                       hello   Hello container
 	 *                           responses The text responses
@@ -55,12 +57,18 @@ class Bot {
 	 *                       udc     Undefined container
 	 *                           responses The text responses
 	 *                   topic       Topics/categories container
-	 *                       id      An unique topic ID as a string.
+	 *                       id      An unique topic ID as a string
+	 *                       sets    A set of related topics
+	 *                           pattern      A pattern to match against
+	 *                           response     A response
+	 *                           confirmation A confirmation (for goto and alerts)
+	 *                           goto         Set topic for next message
+	 *                           alert        Alert humans
 	 */
 	public static $FIELDS = array(
 		'description'     => self::POST_TYPE . '_description',
-
 		'stopwords'       => self::POST_TYPE . '_stopwords',
+		'humans'          => self::POST_TYPE . '_humans',
 
 		'generics'        => array(
 			'hello'       => self::POST_TYPE . '_generics_hello',
@@ -92,6 +100,13 @@ class Bot {
 
 		'topics'          => self::POST_TYPE . '_topics',
 			'topic_id'    => self::POST_TYPE . '_topic_id',
+			'topic_sets'  => self::POST_TYPE . '_topic_sets',
+				'topic_pattern'         => self::POST_TYPE . '_topic_pattern',
+				'topic_confirmation'    => self::POST_TYPE . '_topic_confirmation',
+				'topic_alert'           => self::POST_TYPE . '_topic_alert',
+				'topic_response'        => self::POST_TYPE . '_topic_response',
+				'topic_goto'            => self::POST_TYPE . '_topic_goto',
+				'topic_alert'           => self::POST_TYPE . '_topic_alert',
 	);
 
 	public function __construct() {
@@ -164,6 +179,8 @@ class Bot {
 					->set_help_text( __( 'A short description for this bot.', 'arniebot' ) ),
 				Field::make( 'textarea', self::$FIELDS['stopwords'], __( 'Stopwords', 'arniebot' ) )
 					->set_help_text( __( 'A comma-separated list of words with no meaning.', 'arniebot' ) ),
+				Field::make( 'text', self::$FIELDS['humans'], __( 'Humans', 'arniebot' ) )
+					->set_help_text( __( 'Humans that should be alerted on alertable topics. A comma-separated e-mail list.', 'arniebot' ) ),
 			) );
 
 		Container::make( 'post_meta', __( 'Script Generics / Bot Introduction', 'arniebot' ) )
@@ -231,7 +248,20 @@ class Bot {
 					->set_help_text( __( 'The topics this bot can help with.', 'arniebot' ) )
 					->add_fields( array(
 						Field::make( 'text', self::$FIELDS['topic_id'], __( 'Topic ID', 'arniebot' ) )
-							->set_help_text( 'A unique topic ID as a string.' ),
+							->set_help_text( __( 'A unique topic ID as a string.', 'arniebot' ) ),
+
+						Field::make( 'complex', self::$FIELDS['topic_sets'], __( 'Topic Patterns and Responses', 'arniebot' ) )
+							->add_fields( array(
+								Field::make( 'text', self::$FIELDS['topic_pattern'], __( 'Topic Pattern', 'arniebot' ) )
+									->set_help_text( __( 'Comma-separated keywords, unordered. Regular expressions allowed.', 'arniebot' ) ),
+								Field::make( 'text', self::$FIELDS['topic_confirmation'], __( 'Topic Confirmation', 'arniebot' ) ),
+								Field::make( 'rich_text', self::$FIELDS['topic_response'], __( 'Topic Response', 'arniebot' ) ),
+								Field::make( 'checkbox', self::$FIELDS['topic_alert'], __( 'Alert humans.', 'arniebot' ) )
+									->set_help_text( __( 'A human will be alerted as this response is sent out via e-mail.', 'arniebot' ) ),
+								Field::make( 'text', self::$FIELDS['topic_goto'], __( 'Goto Topic', 'arniebot' ) )
+									->set_help_text( __( 'The conversation will be weighted towards this topic ID , if exists.', 'arniebot' ) ),
+							) )
+							->setup_labels( array( 'plural_name' => __( 'Topic Sets', 'arniebot' ), 'singular_name' => __( 'Topic Set', 'arniebot' ) ) )
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Topics', 'arniebot' ), 'singular_name' => __( 'Topic', 'arniebot' ) ) )
 					->set_layout( 'tabbed-vertical' ),
