@@ -23,7 +23,7 @@ class Core {
 	 *
 	 * A bot is accessed via the WordPress REST API arnie/v1/bots/$id endpoint.
 	 *
-	 * A POST method will create a new session with the bot.
+	 * A POST method will create a new session with the bot, resetting the state.
 	 * A PUT method requires that a session is supplied.
 	 *
 	 * @return void
@@ -34,8 +34,8 @@ class Core {
 				'methods'             => array( 'POST', 'PUT' ),
 				'callback'            => array( __CLASS__, 'rest_handle' ),
 				'args'                => array(
-					'session_id'      => array(
-						'description' => __( 'The session ID for this conversation.', 'arniebot' ),
+					'state'           => array(
+						'description' => __( 'The session state for this conversation.', 'arniebot' ),
 						'type'        => 'string',
 					),
 					'message'         => array(
@@ -55,7 +55,7 @@ class Core {
 	 */
 	public static function rest_handle( $request ) {
 		$bot_id     = $request->get_param( 'id' );
-		$session_id = $request->get_param( 'session_id' );
+		$state      = $request->get_param( 'state' );
 		$message    = $request->get_param( 'message' );
 
 		/**
