@@ -1,0 +1,12 @@
+.arniebot__chat__message {
+    width: 50%;
+    border: 1px solid gray;
+    margin: 10px 5px;
+    padding: 10px;
+}
+.arniebot__chat__message--bot{
+    float: left;
+}
+.arniebot__chat__message--user{
+    float: right;
+}
