@@ -44,12 +44,6 @@ class Bot {
 	 *                           responses The text responses
 	 *                           response  A single text response
 	 *                           line      A singe line
-	 *                       bye     Bye container
-	 *                           responses The text responses
-	 *                           patterns  Matching patterns
-	 *                           pattern   A single matching pattern
-	 *                           response  A single text response
-	 *                           line      A singe line
 	 *                       yes     Yes container
 	 *                           patterns  Matching patterns
 	 *                           pattern   A single matching pattern
@@ -61,6 +55,7 @@ class Bot {
 	 *                       udc     Undefined container
 	 *                           responses The text responses
 	 *                   topic       Topics/categories container
+	 *                       id      An unique topic ID as a string.
 	 */
 	public static $FIELDS = array(
 		'description'     => self::POST_TYPE . '_description',
@@ -96,6 +91,7 @@ class Bot {
 		),
 
 		'topics'          => self::POST_TYPE . '_topics',
+			'topic_id'    => self::POST_TYPE . '_topic_id',
 	);
 
 	public function __construct() {
@@ -181,52 +177,65 @@ class Bot {
 					->setup_labels( array( 'plural_name' => __( 'Introductions', 'arniebot' ), 'singular_name' => __( 'Introduction', 'arniebot' ) ) )
 			) );
 
-        
-        Container::make( 'post_meta', __( 'Script Generics / Bot UDC', 'arniebot' ) )
-            ->where( 'post_type', '=', self::POST_TYPE )
-            ->add_fields( array(
-                Field::make( 'complex', self::$FIELDS['generics']['udc_responses'], __( 'Bot UDC Responses', 'arniebot' ) )
-                    ->set_help_text( __( "The bot will randomly pick one of these when it doesn't know what to respond.", 'arniebot' ) )
-                    ->add_fields( array(
-                        Field::make( 'rich_text', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
-                    ) )
-                    ->setup_labels( array( 'plural_name' => __( 'UDC', 'arniebot' ), 'singular_name' => __( 'UDC', 'arniebot' ) ) )
-            ) );
+		
+		Container::make( 'post_meta', __( 'Script Generics / Bot UDC', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['generics']['udc_responses'], __( 'Bot UDC Responses', 'arniebot' ) )
+					->set_help_text( __( "The bot will randomly pick one of these when it doesn't know what to respond.", 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'rich_text', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
+					) )
+					->setup_labels( array( 'plural_name' => __( 'UDC', 'arniebot' ), 'singular_name' => __( 'UDC', 'arniebot' ) ) )
+			) );
 
-        Container::make( 'post_meta', __( 'Script Generics / Bot Idle', 'arniebot' ) )
-            ->where( 'post_type', '=', self::POST_TYPE )
-            ->add_fields( array(
-                Field::make( 'complex', self::$FIELDS['generics']['idle_responses'], __( 'Bot Idle Responses', 'arniebot' ) )
-                    ->set_help_text( __( 'The bot will randomly pick one of these when everyone is bored.', 'arniebot' ) )
-                    ->add_fields( array(
-                        Field::make( 'rich_text', self::$FIELDS['generics']['idle_response'], __( 'Responses', 'arniebot' ) )
-                    ) )
-                    ->setup_labels( array( 'plural_name' => __( 'Idle Responses', 'arniebot' ), 'singular_name' => __( 'Idle Response', 'arniebot' ) ) )
-            ) );
+		Container::make( 'post_meta', __( 'Script Generics / Bot Idle', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['generics']['idle_responses'], __( 'Bot Idle Responses', 'arniebot' ) )
+					->set_help_text( __( 'The bot will randomly pick one of these when everyone is bored.', 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'rich_text', self::$FIELDS['generics']['idle_response'], __( 'Responses', 'arniebot' ) )
+					) )
+					->setup_labels( array( 'plural_name' => __( 'Idle Responses', 'arniebot' ), 'singular_name' => __( 'Idle Response', 'arniebot' ) ) )
+			) );
 
-        Container::make( 'post_meta', __( 'Script Generics / Bot Yes', 'arniebot' ) )
-            ->where( 'post_type', '=', self::POST_TYPE )
-            ->add_fields( array(
-                Field::make( 'complex', self::$FIELDS['generics']['yes_patterns'], __( 'Bot Yes Patterns', 'arniebot' ) )
-                    ->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
-                    ->add_fields( array(
-                        Field::make( 'text', self::$FIELDS['generics']['yes_pattern'], __( 'Patterns', 'arniebot' ) )
-                    ) )
-                    ->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-                    ->set_layout( 'tabbed-vertical' ),
-            ) );
+		Container::make( 'post_meta', __( 'Script Generics / Bot Yes', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['generics']['yes_patterns'], __( 'Bot Yes Patterns', 'arniebot' ) )
+					->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'text', self::$FIELDS['generics']['yes_pattern'], __( 'Patterns', 'arniebot' ) )
+					) )
+					->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
+					->set_layout( 'tabbed-vertical' ),
+			) );
 
-        Container::make( 'post_meta', __( 'Script Generics / Bot No', 'arniebot' ) )
-            ->where( 'post_type', '=', self::POST_TYPE )
-            ->add_fields( array(
-                Field::make( 'complex', self::$FIELDS['generics']['no_patterns'], __( 'Bot No Patterns', 'arniebot' ) )
-                    ->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
-                    ->add_fields( array(
-                        Field::make( 'text', self::$FIELDS['generics']['no_pattern'], __( 'Patterns', 'arniebot' ) )
-                    ) )
-                    ->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-                    ->set_layout( 'tabbed-vertical' ),
-            ) );
+		Container::make( 'post_meta', __( 'Script Generics / Bot No', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['generics']['no_patterns'], __( 'Bot No Patterns', 'arniebot' ) )
+					->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'text', self::$FIELDS['generics']['no_pattern'], __( 'Patterns', 'arniebot' ) )
+					) )
+					->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
+					->set_layout( 'tabbed-vertical' ),
+			) );
+
+		Container::make( 'post_meta', __( 'Script Topics', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['topics'], __( 'Bot Topics', 'arniebot' ) )
+					->set_help_text( __( 'The topics this bot can help with.', 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'text', self::$FIELDS['topic_id'], __( 'Topic ID', 'arniebot' ) )
+							->set_help_text( 'A unique topic ID as a string.' ),
+					) )
+					->setup_labels( array( 'plural_name' => __( 'Topics', 'arniebot' ), 'singular_name' => __( 'Topic', 'arniebot' ) ) )
+					->set_layout( 'tabbed-vertical' ),
+			) );
 	}
 
 	/**
