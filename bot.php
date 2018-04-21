@@ -129,6 +129,7 @@ class Bot {
 	 */
 	public static function register_post_type() {
 		register_post_type( self::POST_TYPE, array(
+			'description'       => __( 'A patient chat bot.' ),
 			'label'  => __( 'Bots', 'arniebot' ),
 			'labels' => array(
 				'name'                  => __( 'Bots', 'arniebot' ),
@@ -141,15 +142,12 @@ class Bot {
 				'not_found_in_trash'    => __( 'No bots found', 'arniebot' ),
 				'all_items'             => __( 'All Bots', 'arniebot' ),
 			),
-			'description'       => __( 'A patient chat bot.' ),
-			'public'            => false,
+			'hierarchical'      => false,
 			'show_ui'           => true,
 			'menu_icon'         => 'dashicons-smiley',
-			'capability_type'   => array( 'arniebot', 'arniebots' ),
-			'map_meta_cap'       => true,
 			'supports'          => array( 'title' ),
 			'can_export'        => false,
-			'rewrite'           => false,
+			'rewrite'           => array( 'with_front' => false ),
 		) );
 	}
 
