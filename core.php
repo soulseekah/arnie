@@ -37,7 +37,7 @@ class Core {
 				'callback'            => array( __CLASS__, 'rest_handle' ),
 				'args'                => array(
 					'state'           => array(
-						'description' => __( 'The session state for this conversation.', 'arniebot' ),
+						'description' => __( 'The session state for this conversation JSON in base64.', 'arniebot' ),
 						'type'        => 'string',
 					),
 					'message'         => array(
@@ -60,6 +60,10 @@ class Core {
 		$state      = $request->get_param( 'state' );
 		$message    = $request->get_param( 'message' );
 
+		if ( ! $bot = Bot::get( $bot_id ) ) {
+			return new \WP_Error( 'not_found', 'Unknown bot.' );
+		}
+
 		/**
 		 * A new session is being requested.
 		 */
@@ -70,13 +74,26 @@ class Core {
 		 * Resume and old session.
 		 */
 		else if ( $request->get_method() == 'PUT' ) {
+			if ( ! $state = @base64_decode( $state ) ) {
+				return new \WP_Error( 'invalid_state', 'Invalid state supplied.' );
+			}
+
+			if ( ! $state = @json_decode( $state ) ) {
+				return new \WP_Error( 'invalid_state', 'Invalid state supplied.' );
+			}
+
+			try {
+				$bot->load_state( $state );
+			} catch ( \Exception $e ) {
+				return new \WP_Error( 'invalid_state', $e->getMessage() );
+			}
 		}
 
 		/**
 		 * Method not supported.
 		 */
 		else {
-			return WP_Error( 'rest_no_such_method', __( 'This method is not supported.', 'arniebot' ) );
+			return new \WP_Error( 'rest_no_such_method', __( 'This method is not supported.', 'arniebot' ) );
 		}
 	}
 }
