@@ -118,5 +118,28 @@ class Bot_Test extends \WP_UnitTestCase {
 				array( "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." ),
 			)
 		);
+
+		$response = $bot->handle( '私はロボットです' );
+
+		$this->assertContains( $response,
+			array(
+				array( 'Sorry what?' ),
+				array( "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." ),
+			)
+		);
+	}
+
+	public function test_hello_udc() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+
+		$response = $bot->handle( '私はロボットです' );
+
+		$this->assertContains( $response[ 0 ],
+			array( 'Hello', 'Hey there!' )
+		);
+
+		$this->assertContains( $response[ count( $response ) - 1 ],
+			array( 'Sorry what?', "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." )
+		);
 	}
 }

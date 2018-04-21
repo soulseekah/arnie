@@ -186,26 +186,26 @@ class Bot {
 					->set_layout( 'tabbed-vertical' ),
 			) );
 
-        Container::make('post_meta', __('Script Generics / Bot Farewells', 'arniebot'))
-            ->where('post_type', '=', self::POST_TYPE)
-            ->add_fields(array(
-                Field::make('complex', self::$FIELDS['generics']['bye_responses'], __('Bot Farewells', 'arniebot'))
-                    ->set_help_text(__('The bot will randomly pick one of these to say goodbye.', 'arniebot'))
-                    ->add_fields(array(
-                        Field::make('complex', self::$FIELDS['generics']['bye_response'], __('Responses', 'arniebot'))
-                            ->add_fields(array(
-                                Field::make('text', self::$FIELDS['generics']['bye_response_line'], __('Response line', 'arniebot'))
-                            ))
-                            ->setup_labels(array('plural_name' => __('Responses', 'arniebot'), 'singular_name' => __('Response', 'arniebot'))),
-                        Field::make('complex', self::$FIELDS['generics']['bye_patterns'], __('Patterns', 'arniebot'))
-                            ->add_fields(array(
-                                Field::make('text', self::$FIELDS['generics']['bye_pattern'], __('Pattern', 'arniebot')),
-                            ))
-                            ->setup_labels(array('plural_name' => __('Patterns', 'arniebot'), 'singular_name' => __('Pattern', 'arniebot')))
-                    ))
-                    ->setup_labels(array('plural_name' => __('Farewells', 'arniebot'), 'singular_name' => __('Farewell', 'arniebot')))
-                    ->set_layout('tabbed-vertical')
-            ));
+        Container::make( 'post_meta', __( 'Script Generics / Bot Farewells', 'arniebot' ) )
+            ->where( 'post_type', '=', self::POST_TYPE )
+            ->add_fields( array(
+                Field::make( 'complex', self::$FIELDS['generics']['bye_responses'], __( 'Bot Farewells', 'arniebot' ) )
+                    ->set_help_text( __( 'The bot will randomly pick one of these to say goodbye.', 'arniebot' ) )
+                    ->add_fields( array(
+                        Field::make( 'complex', self::$FIELDS['generics']['bye_response'], __( 'Responses', 'arniebot' ) )
+                            ->add_fields( array(
+                                Field::make( 'text', self::$FIELDS['generics']['bye_response_line'], __( 'Response line', 'arniebot' ) )
+                             ) )
+                            ->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+                        Field::make( 'complex', self::$FIELDS['generics']['bye_patterns'], __( 'Patterns', 'arniebot' ) )
+                            ->add_fields( array(
+                                Field::make( 'text', self::$FIELDS['generics']['bye_pattern'], __( 'Pattern', 'arniebot' ) ),
+                             ) )
+                            ->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
+                     ) )
+                    ->setup_labels( array( 'plural_name' => __( 'Farewells', 'arniebot' ), 'singular_name' => __( 'Farewell', 'arniebot' ) ) )
+                    ->set_layout( 'tabbed-vertical' )
+             ) );
 
 
         
