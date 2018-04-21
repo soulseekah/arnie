@@ -14,7 +14,9 @@ class Core {
 	 * @return void
 	 */
 	public static function bootstrap() {
+		add_action( 'after_setup_theme', array( '\Carbon_Fields\Carbon_Fields', 'boot' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
+
 		Bot::bootstrap();
 	}
 

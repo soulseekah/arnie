@@ -33,11 +33,67 @@ class Bot {
 	const POST_TYPE = 'arniebot';
 
 	/**
-	 * @var string[] Field IDs:
-	 *                   description The internal bot description.
+	 * @var string[] Field IDs for post meta:
+	 *                   description The internal bot description
+	 *                   generics
+	 *                       hello   Hello container
+	 *                           responses The text responses
+	 *                           response  A single text response
+	 *                           line      A singe line
+	 *                       bye     Bye container
+	 *                           responses The text responses
+	 *                           patterns  Matching patterns
+	 *                           pattern   A single matching pattern
+	 *                           response  A single text response
+	 *                           line      A singe line
+	 *                       yes     Yes container
+	 *                           patterns  Matching patterns
+	 *                           pattern   A single matching pattern
+	 *                       no      No container
+	 *                           patterns  Matching patterns
+	 *                           pattern   A single matching pattern
+	 *                       idle    Idle container
+	 *                           responses The text responses
+	 *                       udc     Undefined container
+	 *                           responses The text responses
+	 *                   topic       Topics/categories container
 	 */
 	public static $FIELDS = array(
-		'description' => self::POST_TYPE . '_description',
+		'description'     => self::POST_TYPE . '_description',
+
+		'generics'        => array(
+			'hello'       => self::POST_TYPE . '_generics_hello',
+				'hello_responses'       => self::POST_TYPE . '_generics_hello_responses',
+				'hello_response'        => self::POST_TYPE . '_generics_hello_response',
+				'hello_response_line'   => self::POST_TYPE . '_generics_hello_response_line',
+
+			'bye'         => self::POST_TYPE . '_generics_bye',
+				'bye_responses'         => self::POST_TYPE . '_generics_bye_responses',
+				'bye_patterns'          => self::POST_TYPE . '_generics_bye_patterns',
+				'bye_pattern'           => self::POST_TYPE . '_generics_bye_pattern',
+				'bye_response'          => self::POST_TYPE . '_generics_bye_response',
+				'bye_response_line'     => self::POST_TYPE . '_generics_bye_response_line',
+
+			'yes'         => self::POST_TYPE . '_generics_yes',
+				'yes_patterns'          => self::POST_TYPE . '_generics_yes_patterns',
+				'yes_pattern'           => self::POST_TYPE . '_generics_yes_pattern',
+
+			'no'          => self::POST_TYPE . '_generics_no',
+				'no_patterns'           => self::POST_TYPE . '_generics_no_patterns',
+				'no_pattern'            => self::POST_TYPE . '_generics_no_pattern',
+
+			'idle'        => self::POST_TYPE . '_generics_idle',
+				'idle_responses'        => self::POST_TYPE . '_generics_idle_responses',
+				'idle_response'         => self::POST_TYPE . '_generics_idle_response',
+				'idle_response_line'    => self::POST_TYPE . '_generics_idle_response_line',
+
+			'udc'         => self::POST_TYPE . '_generics_udc',
+				'udc_responses'         => self::POST_TYPE . '_generics_udc_responses',
+				'udc_response'          => self::POST_TYPE . '_generics_udc_response',
+				'udc_response_line'     => self::POST_TYPE . '_generics_udc_response_line',
+		),
+
+		'topics'          => self::POST_TYPE . '_topics',
 	);
 
 	public function __construct() {
@@ -55,8 +111,6 @@ class Bot {
 	 * @return void
 	 */
 	public static function bootstrap() {
-		Carbon_Fields::boot();
-
 		add_action( 'init', array( __CLASS__, 'register_post_type' ) );
 
 		add_action( 'carbon_fields_register_fields', array( __CLASS__, 'register_metaboxes' ) );
@@ -103,8 +157,49 @@ class Bot {
 	 * @return void
 	 */
 	public static function register_metaboxes() {
-		Container::make( 'post_meta', __( 'Bot Properties', 'arniebot' ) )
-			->where( 'post_type', '=', self::POST_TYPE );
+		Container::make( 'post_meta', __( 'General', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'text', self::$FIELDS['description'], __( 'Bot description', 'arniebot' ) )
+					->set_help_text( __( 'A short description for this bot.', 'arniebot' ) ),
+			) );
+
+		Container::make( 'post_meta', __( 'Script Generics / Bot Introduction', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['generics']['hello_responses'], __( 'Bot Introductions', 'arniebot' ) )
+					->set_help_text( __( 'The bot will randomly pick one of these when starting a conversation.', 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'complex', self::$FIELDS['generics']['hello_response'], __( 'Responses', 'arniebot' ) )
+							->add_fields( array(
+								Field::make( 'text', self::$FIELDS['generics']['hello_response_line'], __( 'Response line', 'arniebot' ) )
+							) )
+							->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+					) )
+					->setup_labels( array( 'plural_name' => __( 'Introductions', 'arniebot' ), 'singular_name' => __( 'Introduction', 'arniebot' ) ) )
+					->set_layout( 'tabbed-vertical' ),
+			) );
+
+		Container::make( 'post_meta', __( 'Script Generics / Bot Farewells', 'arniebot' ) )
+			->where( 'post_type', '=', self::POST_TYPE )
+			->add_fields( array(
+				Field::make( 'complex', self::$FIELDS['generics']['bye_responses'], __( 'Bot Farewells', 'arniebot' ) )
+					->set_help_text( __( 'The bot will randomly pick one of these to say goodbye.', 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'complex', self::$FIELDS['generics']['bye_response'], __( 'Responses', 'arniebot' ) )
+							->add_fields( array(
+								Field::make( 'complex', self::$FIELDS['generics']['bye_patterns'], __( 'Patterns', 'arniebot' ) )
+									->add_fields( array(
+										Field::make( 'text', self::$FIELDS['generics']['bye_pattern'], __( 'Pattern', 'arniebot' ) ),
+									) )
+									->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) ),
+								Field::make( 'text', self::$FIELDS['generics']['bye_response_line'], __( 'Response line', 'arniebot' ) )
+							) )
+							->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+					) )
+					->setup_labels( array( 'plural_name' => __( 'Farewells', 'arniebot' ), 'singular_name' => __( 'Farewell', 'arniebot' ) ) )
+					->set_layout( 'tabbed-vertical' )
+			) );
 	}
 
 	/**
