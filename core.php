@@ -78,7 +78,7 @@ class Core {
 				return new \WP_Error( 'invalid_state', 'Invalid state supplied.' );
 			}
 
-			if ( ! $state = @json_decode( $state ) ) {
+			if ( ! $state = @json_decode( $state, true ) ) {
 				return new \WP_Error( 'invalid_state', 'Invalid state supplied.' );
 			}
 
@@ -95,5 +95,12 @@ class Core {
 		else {
 			return new \WP_Error( 'rest_no_such_method', __( 'This method is not supported.', 'arniebot' ) );
 		}
+
+		$response = array(
+			'response' => $bot->handle( $message ),
+			'state'    => base64_encode( json_encode( $bot->dump_state() ) )
+		);
+
+		return rest_ensure_response( $response );
 	}
 }

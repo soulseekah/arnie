@@ -26,6 +26,7 @@ class Bot {
 	 *                cuid   A universally unique identifier for this conversation.
 	 *                topic  The current topic.
 	 *                last   The last time anything was handled.
+	 *                log    All that's been said.
 	 */
 	private $state = array();
 
@@ -338,9 +339,19 @@ class Bot {
 		} else {
 		}
 
+		$response = array_filter( $response );
+
 		$this->state['last'] = time();
 
-		return array_filter( $response );
+		if ( $message ) {
+			$this->state['log'][] = '<' . json_encode( $message );
+		}
+
+		if ( count( $response ) ) {
+			$this->state['log'][] = '>' . json_encode( $response );
+		}
+
+		return $response;
 	}
 
 	/**

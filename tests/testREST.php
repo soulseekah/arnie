@@ -41,4 +41,22 @@ class REST_Test extends \WP_UnitTestCase {
 		$data = $response->get_data();
 		$this->assertEquals( 'invalid_state', $data['code'] );
 	}
+
+	public function test_start_conversation() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+
+		$request = new \WP_REST_Request( 'POST', '/arnie/v1/bots/' . $bot->ID );
+		$request->add_header( 'content-type', 'application/json' );
+		$response = rest_get_server()->dispatch( $request );
+		$this->assertEquals( 200, $response->status );
+
+		$data = $response->get_data();
+		$state = json_decode( base64_decode( $data['state'] ), true );
+
+		$this->assertEquals( array( 'bid', 'cuid', 'topic', 'last', 'log' ), array_keys( $state ) );
+		$this->assertEquals( $bot->ID, $state['bid'] );
+		$this->assertLessThan( 3, abs( $state['last'] - time() ) );
+		$this->assertNotEmpty( $state['log'] );
+		$this->assertNotEmpty( $state['cuid'] );
+	}
 }
