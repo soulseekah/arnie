@@ -12,6 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
+add_action( 'plugins_loaded', 'arniebot_load_textdomain' );
+function arniebot_load_textdomain() {
+	load_plugin_textdomain( 'arniebot', false, basename( dirname( __FILE__ ) ) . '/languages' );
+}
+
 /**
  * Don't outright die with syntax errors on PHP 5.2, just don't load anything.
  */
