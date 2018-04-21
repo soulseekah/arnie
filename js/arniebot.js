@@ -1,4 +1,4 @@
-(function ($) {
+( function ($) {
     var arnieBot = {
         currentBotId: null,
         botWrapperClass: '.arniebot',
@@ -18,10 +18,12 @@
         },
         send: function (botId, message) { // send message to bot
             $(this.chatClass).append('<div class="arniebot__chat__message arniebot__chat__message--user">' + message  + '</div>');
-            var data = {'data': message, 'state':this.state};
+            var data = {'data': message, 'state':this.state},
+                //if first request - POST, otherwise - PUT
+            requestMethod = (this.state !== null)?'PUT':'POST';
             self = this;
             $.ajax({
-                type: 'POST',
+                type: requestMethod,
                 url: '/wp-json/arnie/v1/bots/'+ botId,
                 dataType: 'json',
                 data: data,
@@ -32,9 +34,9 @@
                 error: function (er) {
                     console.log(er);
                 }
-            });
+            } );
         }
     };
 
     arnieBot.init();
-}(jQuery));
+}(jQuery) );
