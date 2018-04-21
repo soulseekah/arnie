@@ -65,18 +65,18 @@ class Bot {
 	public static $FIELDS = array(
 		'description'     => self::POST_TYPE . '_description',
 
+		'stopwords'       => self::POST_TYPE . '_stopwords',
+
 		'generics'        => array(
 			'hello'       => self::POST_TYPE . '_generics_hello',
 				'hello_responses'       => self::POST_TYPE . '_generics_hello_responses',
 				'hello_response'        => self::POST_TYPE . '_generics_hello_response',
-				'hello_response_line'   => self::POST_TYPE . '_generics_hello_response_line',
 
 			'bye'         => self::POST_TYPE . '_generics_bye',
 				'bye_responses'         => self::POST_TYPE . '_generics_bye_responses',
 				'bye_patterns'          => self::POST_TYPE . '_generics_bye_patterns',
 				'bye_pattern'           => self::POST_TYPE . '_generics_bye_pattern',
 				'bye_response'          => self::POST_TYPE . '_generics_bye_response',
-				'bye_response_line'     => self::POST_TYPE . '_generics_bye_response_line',
 
 			'yes'         => self::POST_TYPE . '_generics_yes',
 				'yes_patterns'          => self::POST_TYPE . '_generics_yes_patterns',
@@ -89,12 +89,10 @@ class Bot {
 			'idle'        => self::POST_TYPE . '_generics_idle',
 				'idle_responses'        => self::POST_TYPE . '_generics_idle_responses',
 				'idle_response'         => self::POST_TYPE . '_generics_idle_response',
-				'idle_response_line'    => self::POST_TYPE . '_generics_idle_response_line',
 
 			'udc'         => self::POST_TYPE . '_generics_udc',
 				'udc_responses'         => self::POST_TYPE . '_generics_udc_responses',
 				'udc_response'          => self::POST_TYPE . '_generics_udc_response',
-				'udc_response_line'     => self::POST_TYPE . '_generics_udc_response_line',
 		),
 
 		'topics'          => self::POST_TYPE . '_topics',
@@ -168,6 +166,8 @@ class Bot {
 			->add_fields( array(
 				Field::make( 'text', self::$FIELDS['description'], __( 'Bot description', 'arniebot' ) )
 					->set_help_text( __( 'A short description for this bot.', 'arniebot' ) ),
+				Field::make( 'textarea', self::$FIELDS['stopwords'], __( 'Stopwords', 'arniebot' ) )
+					->set_help_text( __( 'A comma-separated list of words with no meaning.', 'arniebot' ) ),
 			) );
 
 		Container::make( 'post_meta', __( 'Script Generics / Bot Introduction', 'arniebot' ) )
@@ -176,37 +176,10 @@ class Bot {
 				Field::make( 'complex', self::$FIELDS['generics']['hello_responses'], __( 'Bot Introductions', 'arniebot' ) )
 					->set_help_text( __( 'The bot will randomly pick one of these when starting a conversation.', 'arniebot' ) )
 					->add_fields( array(
-						Field::make( 'complex', self::$FIELDS['generics']['hello_response'], __( 'Responses', 'arniebot' ) )
-							->add_fields( array(
-								Field::make( 'text', self::$FIELDS['generics']['hello_response_line'], __( 'Response line', 'arniebot' ) )
-							) )
-							->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+						Field::make( 'rich_text', self::$FIELDS['generics']['hello_response'], __( 'Responses', 'arniebot' ) )
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Introductions', 'arniebot' ), 'singular_name' => __( 'Introduction', 'arniebot' ) ) )
-					->set_layout( 'tabbed-vertical' ),
 			) );
-
-        Container::make( 'post_meta', __( 'Script Generics / Bot Farewells', 'arniebot' ) )
-            ->where( 'post_type', '=', self::POST_TYPE )
-            ->add_fields( array(
-                Field::make( 'complex', self::$FIELDS['generics']['bye_responses'], __( 'Bot Farewells', 'arniebot' ) )
-                    ->set_help_text( __( 'The bot will randomly pick one of these to say goodbye.', 'arniebot' ) )
-                    ->add_fields( array(
-                        Field::make( 'complex', self::$FIELDS['generics']['bye_response'], __( 'Responses', 'arniebot' ) )
-                            ->add_fields( array(
-                                Field::make( 'text', self::$FIELDS['generics']['bye_response_line'], __( 'Response line', 'arniebot' ) )
-                             ) )
-                            ->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
-                        Field::make( 'complex', self::$FIELDS['generics']['bye_patterns'], __( 'Patterns', 'arniebot' ) )
-                            ->add_fields( array(
-                                Field::make( 'text', self::$FIELDS['generics']['bye_pattern'], __( 'Pattern', 'arniebot' ) ),
-                             ) )
-                            ->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-                     ) )
-                    ->setup_labels( array( 'plural_name' => __( 'Farewells', 'arniebot' ), 'singular_name' => __( 'Farewell', 'arniebot' ) ) )
-                    ->set_layout( 'tabbed-vertical' )
-             ) );
-
 
         
         Container::make( 'post_meta', __( 'Script Generics / Bot UDC', 'arniebot' ) )
@@ -215,14 +188,9 @@ class Bot {
                 Field::make( 'complex', self::$FIELDS['generics']['udc_responses'], __( 'Bot UDC Responses', 'arniebot' ) )
                     ->set_help_text( __( "The bot will randomly pick one of these when it doesn't know what to respond.", 'arniebot' ) )
                     ->add_fields( array(
-                        Field::make( 'complex', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
-                            ->add_fields( array(
-                                Field::make( 'text', self::$FIELDS['generics']['udc_response_line'], __( 'Response line', 'arniebot' ) )
-                            ) )
-                            ->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+                        Field::make( 'rich_text', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
                     ) )
                     ->setup_labels( array( 'plural_name' => __( 'UDC', 'arniebot' ), 'singular_name' => __( 'UDC', 'arniebot' ) ) )
-                    ->set_layout( 'tabbed-vertical' ),
             ) );
 
         Container::make( 'post_meta', __( 'Script Generics / Bot Idle', 'arniebot' ) )
@@ -231,14 +199,9 @@ class Bot {
                 Field::make( 'complex', self::$FIELDS['generics']['idle_responses'], __( 'Bot Idle Responses', 'arniebot' ) )
                     ->set_help_text( __( 'The bot will randomly pick one of these when everyone is bored.', 'arniebot' ) )
                     ->add_fields( array(
-                        Field::make( 'complex', self::$FIELDS['generics']['idle_response'], __( 'Responses', 'arniebot' ) )
-                            ->add_fields( array(
-                                Field::make( 'text', self::$FIELDS['generics']['idle_response_line'], __( 'Response line', 'arniebot' ) )
-                            ) )
-                            ->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+                        Field::make( 'rich_text', self::$FIELDS['generics']['idle_response'], __( 'Responses', 'arniebot' ) )
                     ) )
                     ->setup_labels( array( 'plural_name' => __( 'Idle Responses', 'arniebot' ), 'singular_name' => __( 'Idle Response', 'arniebot' ) ) )
-                    ->set_layout( 'tabbed-vertical' ),
             ) );
 
         Container::make( 'post_meta', __( 'Script Generics / Bot Yes', 'arniebot' ) )
@@ -380,16 +343,16 @@ class Bot {
 		if ( ! $this->state['last'] ) {
 
 			/** Pick a greeting. */
-			$hello_responses = array();
-			foreach ( $this->get_field( self::$FIELDS['generics']['hello_responses'] ) as $hello_response ) {
-				$hello_responses[] = wp_list_pluck( $hello_response[ self::$FIELDS['generics']['hello_response'] ], self::$FIELDS['generics']['hello_response_line'] );
-			}
+			$hello_responses = wp_list_pluck(
+				$this->get_field( self::$FIELDS['generics']['hello_responses'] ),
+				self::$FIELDS['generics']['hello_response']
+			);
 
 			$this->state['last'] = time(); /** Rehandle the message if any. */
 			if ( $hello_responses ) {
-				$response = array_merge( $response, $hello_responses[ array_rand( $hello_responses ) ], $this->handle( $message ) );
+				$response = array_merge( $response, array( $hello_responses[ array_rand( $hello_responses ) ] ), $this->handle( $message ) );
 			} else {
-				$response = array_merge( $response, __( 'A hello response has not been defined for this bot.', 'arniebot' ) );
+				$response[] = __( 'A hello response has not been defined for this bot.', 'arniebot' );
 			}
 
 		/**
@@ -404,15 +367,15 @@ class Bot {
 				$this->state['idle'] = true;
 
 				/** Pick an idle line. */
-				$idle_responses = array();
-				foreach ( $this->get_field( self::$FIELDS['generics']['idle_responses'] ) as $idle_response ) {
-					$idle_responses[] = wp_list_pluck( $idle_response[ self::$FIELDS['generics']['idle_response'] ], self::$FIELDS['generics']['idle_response_line'] );
-				}
+				$idle_responses = wp_list_pluck(
+					$this->get_field( self::$FIELDS['generics']['idle_responses'] ),
+					self::$FIELDS['generics']['idle_response']
+				);
 
 				if ( $idle_responses ) {
-					$response = array_merge( $response, $idle_responses[ array_rand( $idle_responses ) ] );
+					$response[] = $idle_responses[ array_rand( $idle_responses ) ];
 				} else {
-					$response = array_merge( $response, __( 'An idle response has not been defined for this bot...', 'arniebot' ) );
+					$response[] = __( 'An idle response has not been defined for this bot...', 'arniebot' );
 				}
 			}
 
@@ -423,16 +386,16 @@ class Bot {
 			$this->state['last'] = time();
 			$this->state['idle'] = false;
 
-			/** Pick a default responce (UDC). */
-			$idle_responses = array();
-			foreach ( $this->get_field( self::$FIELDS['generics']['udc_responses'] ) as $udc_response ) {
-				$udc_responses[] = wp_list_pluck( $udc_response[ self::$FIELDS['generics']['udc_response'] ], self::$FIELDS['generics']['udc_response_line'] );
-			}
+			/** Pick an udc line. */
+			$udc_responses = wp_list_pluck(
+				$this->get_field( self::$FIELDS['generics']['udc_responses'] ),
+				self::$FIELDS['generics']['udc_response']
+			);
 
 			if ( $udc_responses ) {
-				$response = array_merge( $response, $udc_responses[ array_rand( $udc_responses ) ] );
+				$response[] = $udc_responses[ array_rand( $udc_responses ) ];
 			} else {
-				$response = array_merge( $response, __( 'A UDC response has not been defined for this bot.', 'arniebot' ) );
+				$response[] = __( 'A UDC response has not been defined for this bot.', 'arniebot' );
 			}
 		}
 

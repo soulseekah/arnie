@@ -11,39 +11,29 @@ class Test_Utils {
 		 * Hello responses.
 		 */
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['hello_responses']
-			. '[0]/' . Bot::$FIELDS['generics']['hello_response']
-			. '[0]/' . Bot::$FIELDS['generics']['hello_response_line'],
+			. '[0]/' . Bot::$FIELDS['generics']['hello_response'],
 			'Hello :)'
 		);
 
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['hello_responses']
-			. '[1]/' . Bot::$FIELDS['generics']['hello_response']
-			. '[0]/' . Bot::$FIELDS['generics']['hello_response_line'],
-			'Hey there!'
-		);
-		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['hello_responses']
-			. '[1]/' . Bot::$FIELDS['generics']['hello_response']
-			. '[1]/' . Bot::$FIELDS['generics']['hello_response_line'],
-			'How can we help you today?'
+			. '[1]/' . Bot::$FIELDS['generics']['hello_response'],
+			'Hey there! How can we help you today?'
 		);
 
 		/**
 		 * Idle responses.
 		 */
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['idle_responses']
-			. '[0]/' . Bot::$FIELDS['generics']['idle_response']
-			. '[0]/' . Bot::$FIELDS['generics']['idle_response_line'],
+			. '[0]/' . Bot::$FIELDS['generics']['idle_response'],
 			'You still there?'
 		);
 
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['idle_responses']
-			. '[1]/' . Bot::$FIELDS['generics']['idle_response']
-			. '[0]/' . Bot::$FIELDS['generics']['idle_response_line'],
+			. '[1]/' . Bot::$FIELDS['generics']['idle_response'],
 			'Hello?'
 		);
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['idle_responses']
-			. '[2]/' . Bot::$FIELDS['generics']['idle_response']
-			. '[0]/' . Bot::$FIELDS['generics']['idle_response_line'],
+			. '[2]/' . Bot::$FIELDS['generics']['idle_response'],
 			'Silence is golden.'
 		);
 
@@ -51,14 +41,12 @@ class Test_Utils {
 		 * UDC responses.
 		 */
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['udc_responses']
-			. '[0]/' . Bot::$FIELDS['generics']['udc_response']
-			. '[0]/' . Bot::$FIELDS['generics']['udc_response_line'],
+			. '[0]/' . Bot::$FIELDS['generics']['udc_response'],
 			'Sorry what?'
 		);
 
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['udc_responses']
-			. '[1]/' . Bot::$FIELDS['generics']['udc_response']
-			. '[0]/' . Bot::$FIELDS['generics']['udc_response_line'],
+			. '[1]/' . Bot::$FIELDS['generics']['udc_response'],
 			"Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you."
 		);
 
