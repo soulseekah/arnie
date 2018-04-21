@@ -182,26 +182,74 @@ class Bot {
 					->set_layout( 'tabbed-vertical' ),
 			) );
 
-		Container::make( 'post_meta', __( 'Script Generics / Bot Farewells', 'arniebot' ) )
-			->where( 'post_type', '=', self::POST_TYPE )
-			->add_fields( array(
-				Field::make( 'complex', self::$FIELDS['generics']['bye_responses'], __( 'Bot Farewells', 'arniebot' ) )
-					->set_help_text( __( 'The bot will randomly pick one of these to say goodbye.', 'arniebot' ) )
-					->add_fields( array(
-						Field::make( 'complex', self::$FIELDS['generics']['bye_response'], __( 'Responses', 'arniebot' ) )
-							->add_fields( array(
-								Field::make( 'complex', self::$FIELDS['generics']['bye_patterns'], __( 'Patterns', 'arniebot' ) )
-									->add_fields( array(
-										Field::make( 'text', self::$FIELDS['generics']['bye_pattern'], __( 'Pattern', 'arniebot' ) ),
-									) )
-									->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) ),
-								Field::make( 'text', self::$FIELDS['generics']['bye_response_line'], __( 'Response line', 'arniebot' ) )
-							) )
-							->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
-					) )
-					->setup_labels( array( 'plural_name' => __( 'Farewells', 'arniebot' ), 'singular_name' => __( 'Farewell', 'arniebot' ) ) )
-					->set_layout( 'tabbed-vertical' )
-			) );
+        Container::make('post_meta', __('Script Generics / Bot Farewells', 'arniebot'))
+            ->where('post_type', '=', self::POST_TYPE)
+            ->add_fields(array(
+                Field::make('complex', self::$FIELDS['generics']['bye_responses'], __('Bot Farewells', 'arniebot'))
+                    ->set_help_text(__('The bot will randomly pick one of these to say goodbye.', 'arniebot'))
+                    ->add_fields(array(
+                        Field::make('complex', self::$FIELDS['generics']['bye_response'], __('Responses', 'arniebot'))
+                            ->add_fields(array(
+                                Field::make('text', self::$FIELDS['generics']['bye_response_line'], __('Response line', 'arniebot'))
+                            ))
+                            ->setup_labels(array('plural_name' => __('Responses', 'arniebot'), 'singular_name' => __('Response', 'arniebot'))),
+                        Field::make('complex', self::$FIELDS['generics']['bye_patterns'], __('Patterns', 'arniebot'))
+                            ->add_fields(array(
+                                Field::make('text', self::$FIELDS['generics']['bye_pattern'], __('Pattern', 'arniebot')),
+                            ))
+                            ->setup_labels(array('plural_name' => __('Patterns', 'arniebot'), 'singular_name' => __('Pattern', 'arniebot')))
+                    ))
+                    ->setup_labels(array('plural_name' => __('Farewells', 'arniebot'), 'singular_name' => __('Farewell', 'arniebot')))
+                    ->set_layout('tabbed-vertical')
+            ));
+
+
+        //udc
+        Container::make( 'post_meta', __( 'Script Generics / Bot Udc', 'arniebot' ) )
+            ->where( 'post_type', '=', self::POST_TYPE )
+            ->add_fields( array(
+                Field::make( 'complex', self::$FIELDS['generics']['udc_responses'], __( 'Bot Udces', 'arniebot' ) )
+                    ->set_help_text( __( 'The bot will randomly pick one of these when starting a conversation.', 'arniebot' ) )
+                    ->add_fields( array(
+                        Field::make( 'complex', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
+                            ->add_fields( array(
+                                Field::make( 'text', self::$FIELDS['generics']['udc_response_line'], __( 'Response line', 'arniebot' ) )
+                            ) )
+                            ->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+                    ) )
+                    ->setup_labels( array( 'plural_name' => __( 'Udces', 'arniebot' ), 'singular_name' => __( 'Udc', 'arniebot' ) ) )
+                    ->set_layout( 'tabbed-vertical' ),
+            ) );
+
+        //idle
+        Container::make( 'post_meta', __( 'Script Generics / Bot idle', 'arniebot' ) )
+            ->where( 'post_type', '=', self::POST_TYPE )
+            ->add_fields( array(
+                Field::make( 'complex', self::$FIELDS['generics']['idle_responses'], __( 'Bot idles', 'arniebot' ) )
+                    ->set_help_text( __( 'The bot will randomly pick one of these when starting a conversation.', 'arniebot' ) )
+                    ->add_fields( array(
+                        Field::make( 'complex', self::$FIELDS['generics']['idle_response'], __( 'Responses', 'arniebot' ) )
+                            ->add_fields( array(
+                                Field::make( 'text', self::$FIELDS['generics']['idle_response_line'], __( 'Response line', 'arniebot' ) )
+                            ) )
+                            ->setup_labels( array( 'plural_name' => __( 'Responses', 'arniebot' ), 'singular_name' => __( 'Response', 'arniebot' ) ) ),
+                    ) )
+                    ->setup_labels( array( 'plural_name' => __( 'idles', 'arniebot' ), 'singular_name' => __( 'Idle', 'arniebot' ) ) )
+                    ->set_layout( 'tabbed-vertical' ),
+            ) );
+
+        //yes
+        Container::make( 'post_meta', __( 'Script Generics / Bot yes', 'arniebot' ) )
+            ->where( 'post_type', '=', self::POST_TYPE )
+            ->add_fields( array(
+                Field::make( 'complex', self::$FIELDS['generics']['yes_patterns'], __( 'Bot yes', 'arniebot' ) )
+                    ->set_help_text( __( 'The bot will randomly pick one of these when starting a conversation.', 'arniebot' ) )
+                    ->add_fields( array(
+                        Field::make( 'text', self::$FIELDS['generics']['yes_pattern'], __( 'Patterns', 'arniebot' ) )
+                    ) )
+                    ->setup_labels( array( 'plural_name' => __( 'yes', 'arniebot' ), 'singular_name' => __( 'yes', 'arniebot' ) ) )
+                    ->set_layout( 'tabbed-vertical' ),
+            ) );
 	}
 
 	/**
