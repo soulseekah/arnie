@@ -297,17 +297,17 @@ class Bot {
 			return __( 'A bot with this ID does not exist', 'arniebot' );
 		}
 
-        wp_enqueue_script('arniebot', plugins_url( '/js/arniebot.js', __FILE__ ) );
-        wp_enqueue_style('arniebot', plugins_url( '/css/arniebot.css', __FILE__ ) );
+        wp_enqueue_script( 'arniebot', plugins_url( '/js/arniebot.js', __FILE__ ) );
+        wp_enqueue_style( 'arniebot', plugins_url( '/css/arniebot.css', __FILE__ ) );
 
-        $htmlBotInit = '<div class="arniebot" data-bot-id="' . $atts[ 'id' ] . '">
+        $html = '<div class="arniebot" data-bot-id="' . esc_attr( $atts[ 'id' ] ) . '">
                 <div class="arniebot__chat"></div>
                 <form class="arniebot__client-form">
                     <textarea class="client-board__message"></textarea><br>
-                    <input class="client-board__message__send" type="submit" value="Отправить" >
+                    <input class="client-board__message__send" type="submit" value="' . esc_attr__( 'Send', 'arniebot' ) .'">
                 </form>
                 </div>';
-        return $htmlBotInit;
+        return $html;
 	}
 
 	/**
