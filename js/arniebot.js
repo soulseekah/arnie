@@ -17,8 +17,11 @@
             });
         },
         send: function (botId, message) { // send message to bot
+			if (!message) {
+				return;
+			}
             $(this.chatClass).append('<div class="arniebot__chat__message arniebot__chat__message--user">' + message  + '</div>');
-            var data = {'data': message, 'state':this.state},
+            var data = {'message': message, 'state':this.state},
                 //if first request - POST, otherwise - PUT
             requestMethod = (this.state !== null)?'PUT':'POST';
             self = this;
