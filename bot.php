@@ -47,10 +47,8 @@ class Bot {
 	 *                           response  A single text response
 	 *                           line      A singe line
 	 *                       yes     Yes container
-	 *                           patterns  Matching patterns
 	 *                           pattern   A single matching pattern
 	 *                       no      No container
-	 *                           patterns  Matching patterns
 	 *                           pattern   A single matching pattern
 	 *                       idle    Idle container
 	 *                           responses The text responses
@@ -83,11 +81,9 @@ class Bot {
 				'bye_response'          => self::POST_TYPE . '_generics_bye_response',
 
 			'yes'         => self::POST_TYPE . '_generics_yes',
-				'yes_patterns'          => self::POST_TYPE . '_generics_yes_patterns',
 				'yes_pattern'           => self::POST_TYPE . '_generics_yes_pattern',
 
 			'no'          => self::POST_TYPE . '_generics_no',
-				'no_patterns'           => self::POST_TYPE . '_generics_no_patterns',
 				'no_pattern'            => self::POST_TYPE . '_generics_no_pattern',
 
 			'idle'        => self::POST_TYPE . '_generics_idle',
@@ -217,27 +213,13 @@ class Bot {
 					->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['generics']['udc_response'] ) )
 					->set_collapsed( true ),
 			) )
-			->add_tab(  __( 'Bot Yes Patterns', 'arniebot' ), array(
-				Field::make( 'complex', self::$FIELDS['generics']['yes_patterns'], __( 'Bot Yes Patterns', 'arniebot' ) )
-					->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
-					->add_fields( array(
-						Field::make( 'text', self::$FIELDS['generics']['yes_pattern'], __( 'Patterns', 'arniebot' ) )
-					) )
-					->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-					->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['generics']['yes_pattern'] ) )
-					->set_layout( 'tabbed-vertical' )
-					->set_collapsed( true ),
+			->add_tab(  __( 'Bot Yes Pattern', 'arniebot' ), array(
+				Field::make( 'textarea', self::$FIELDS['generics']['yes_pattern'], __( 'Bot Yes Pattern', 'arniebot' ) )
+					->set_help_text( __( 'An affirmative answer to the question at hand. Comma-separated, regular expressions supported.', 'arniebot' ) )
 			) )
-			->add_tab(  __( 'Bot No Patterns', 'arniebot' ), array(
-				Field::make( 'complex', self::$FIELDS['generics']['no_patterns'], __( 'Bot No Patterns', 'arniebot' ) )
-					->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
-					->add_fields( array(
-						Field::make( 'text', self::$FIELDS['generics']['no_pattern'], __( 'Patterns', 'arniebot' ) )
-					) )
-					->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-					->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['generics']['no_pattern'] ) )
-					->set_layout( 'tabbed-vertical' )
-					->set_collapsed( true ),
+			->add_tab(  __( 'Bot No Pattern', 'arniebot' ), array(
+				Field::make( 'textarea', self::$FIELDS['generics']['no_pattern'], __( 'Bot No Pattern', 'arniebot' ) )
+					->set_help_text( __( 'A negative answer to a current confirmation. Comma-separated, regular expressions supported.', 'arniebot' ) )
 			) );
 
 		Container::make( 'post_meta', __( 'Script Topics', 'arniebot' ) )

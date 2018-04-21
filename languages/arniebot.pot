@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: A.R.N.I.E \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/npobot\n"
-"POT-Creation-Date: 2018-04-21 17:55:08+00:00\n"
+"POT-Creation-Date: 2018-04-21 18:23:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,242 +18,242 @@ msgid ""
 "and ask them to upgrade your server."
 msgstr ""
 
-#: bot.php:147
+#: bot.php:143
 msgid "A patient chat bot."
 msgstr ""
 
-#: bot.php:148 bot.php:150
+#: bot.php:144 bot.php:146
 msgid "Bots"
 msgstr ""
 
-#: bot.php:151
+#: bot.php:147
 msgid "Bot"
 msgstr ""
 
-#: bot.php:153
+#: bot.php:149
 msgid "Add New Bot"
 msgstr ""
 
-#: bot.php:154
+#: bot.php:150
 msgid "Edit Bot"
 msgstr ""
 
-#: bot.php:155
+#: bot.php:151
 msgid "New Bot"
 msgstr ""
 
-#: bot.php:156 bot.php:157
+#: bot.php:152 bot.php:153
 msgid "No bots found"
 msgstr ""
 
-#: bot.php:158
+#: bot.php:154
 msgid "All Bots"
 msgstr ""
 
-#: bot.php:177
+#: bot.php:173
 msgid "General"
 msgstr ""
 
-#: bot.php:180
+#: bot.php:176
 msgid "Bot description"
 msgstr ""
 
-#: bot.php:181
+#: bot.php:177
 msgid "A short description for this bot."
 msgstr ""
 
-#: bot.php:182
+#: bot.php:178
 msgid "Stopwords"
 msgstr ""
 
-#: bot.php:183
+#: bot.php:179
 msgid "A comma-separated list of words with no meaning."
 msgstr ""
 
-#: bot.php:184
+#: bot.php:180
 msgid "Humans"
 msgstr ""
 
-#: bot.php:185
+#: bot.php:181
 msgid ""
 "Humans that should be alerted on alertable topics. A comma-separated e-mail "
 "list."
 msgstr ""
 
-#: bot.php:188
+#: bot.php:184
 msgid "Script Generics"
 msgstr ""
 
-#: bot.php:190 bot.php:191
+#: bot.php:186 bot.php:187
 msgid "Bot Introductions"
 msgstr ""
 
-#: bot.php:192
+#: bot.php:188
 msgid "The bot will randomly pick one of these when starting a conversation."
 msgstr ""
 
-#: bot.php:194 bot.php:204 bot.php:214
+#: bot.php:190 bot.php:200 bot.php:210
 msgid "Responses"
 msgstr ""
 
-#: bot.php:196
+#: bot.php:192
 msgid "Introductions"
 msgstr ""
 
-#: bot.php:196
+#: bot.php:192
 msgid "Introduction"
 msgstr ""
 
-#: bot.php:200 bot.php:201
+#: bot.php:196 bot.php:197
 msgid "Bot Idle Responses"
 msgstr ""
 
-#: bot.php:202
+#: bot.php:198
 msgid "The bot will randomly pick one of these when everyone is bored."
 msgstr ""
 
-#: bot.php:206
+#: bot.php:202
 msgid "Idle Responses"
 msgstr ""
 
-#: bot.php:206
+#: bot.php:202
 msgid "Idle Response"
 msgstr ""
 
-#: bot.php:210 bot.php:211
+#: bot.php:206 bot.php:207
 msgid "Bot UDC Responses"
 msgstr ""
 
-#: bot.php:212
+#: bot.php:208
 msgid ""
 "The bot will randomly pick one of these when it doesn't know what to respond."
 msgstr ""
 
-#: bot.php:216
+#: bot.php:212
 msgid "UDC"
 msgstr ""
 
+#: bot.php:216 bot.php:217
+msgid "Bot Yes Pattern"
+msgstr ""
+
+#: bot.php:218
+msgid ""
+"An affirmative answer to the question at hand. Comma-separated, regular "
+"expressions supported."
+msgstr ""
+
 #: bot.php:220 bot.php:221
-msgid "Bot Yes Patterns"
+msgid "Bot No Pattern"
 msgstr ""
 
-#: bot.php:222 bot.php:233
-msgid "An affirmative answer to the question at hand."
+#: bot.php:222
+msgid ""
+"A negative answer to a current confirmation. Comma-separated, regular "
+"expressions supported."
 msgstr ""
 
-#: bot.php:224 bot.php:226 bot.php:235 bot.php:237
-msgid "Patterns"
-msgstr ""
-
-#: bot.php:226 bot.php:237
-msgid "Pattern"
-msgstr ""
-
-#: bot.php:231 bot.php:232
-msgid "Bot No Patterns"
-msgstr ""
-
-#: bot.php:243
+#: bot.php:225
 msgid "Script Topics"
 msgstr ""
 
-#: bot.php:246
+#: bot.php:228
 msgid "Bot Topics"
 msgstr ""
 
-#: bot.php:247
+#: bot.php:229
 msgid "The topics this bot can help with."
 msgstr ""
 
-#: bot.php:249
+#: bot.php:231
 msgid "Topic ID"
 msgstr ""
 
-#: bot.php:250
+#: bot.php:232
 msgid "A unique topic ID as a string."
 msgstr ""
 
-#: bot.php:252
+#: bot.php:234
 msgid "Topic Patterns and Responses"
 msgstr ""
 
-#: bot.php:254
+#: bot.php:236
 msgid "Topic Pattern"
 msgstr ""
 
-#: bot.php:255
+#: bot.php:237
 msgid "Comma-separated keywords, unordered. Regular expressions allowed."
 msgstr ""
 
-#: bot.php:256
+#: bot.php:238
 msgid "Topic Confirmation"
 msgstr ""
 
-#: bot.php:257
+#: bot.php:239
 msgid "Confirm intent before moving to topic or sending alert."
 msgstr ""
 
-#: bot.php:258 bot.php:262
+#: bot.php:240 bot.php:244
 msgid "Topic Responses"
 msgstr ""
 
-#: bot.php:260 bot.php:262
+#: bot.php:242 bot.php:244
 msgid "Topic Response"
 msgstr ""
 
-#: bot.php:266
+#: bot.php:248
 msgid "Alert humans."
 msgstr ""
 
-#: bot.php:267
+#: bot.php:249
 msgid "A human will be alerted as this response is sent out via e-mail."
 msgstr ""
 
-#: bot.php:268
+#: bot.php:250
 msgid "Goto Topic"
 msgstr ""
 
-#: bot.php:269
+#: bot.php:251
 msgid "The conversation will be weighted towards this topic ID , if exists."
 msgstr ""
 
-#: bot.php:271
+#: bot.php:253
 msgid "Topic Sets"
 msgstr ""
 
-#: bot.php:271
+#: bot.php:253
 msgid "Topic Set"
 msgstr ""
 
-#: bot.php:276
+#: bot.php:258
 msgid "Topics"
 msgstr ""
 
-#: bot.php:276
+#: bot.php:258
 msgid "Topic"
 msgstr ""
 
-#: bot.php:297
+#: bot.php:279
 msgid "A bot with this ID does not exist"
 msgstr ""
 
-#: bot.php:307
+#: bot.php:289
 msgid "Send"
 msgstr ""
 
-#: bot.php:383
+#: bot.php:365
 msgid "Invalid state for bot."
 msgstr ""
 
-#: bot.php:416
+#: bot.php:398
 msgid "A hello response has not been defined for this bot."
 msgstr ""
 
-#: bot.php:439
+#: bot.php:421
 msgid "An idle response has not been defined for this bot..."
 msgstr ""
 
-#: bot.php:459
+#: bot.php:441
 msgid "A UDC response has not been defined for this bot."
 msgstr ""
 
