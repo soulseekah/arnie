@@ -60,7 +60,8 @@ class Bot {
 	 *                       id      An unique topic ID as a string
 	 *                       sets    A set of related topics
 	 *                           pattern      A pattern to match against
-	 *                           response     A response
+	 *                           responses    Responses
+	 *                               response     A single response
 	 *                           confirmation A confirmation (for goto and alerts)
 	 *                           goto         Set topic for next message
 	 *                           alert        Alert humans
@@ -104,7 +105,8 @@ class Bot {
 				'topic_pattern'         => self::POST_TYPE . '_topic_pattern',
 				'topic_confirmation'    => self::POST_TYPE . '_topic_confirmation',
 				'topic_alert'           => self::POST_TYPE . '_topic_alert',
-				'topic_response'        => self::POST_TYPE . '_topic_response',
+				'topic_responses'       => self::POST_TYPE . '_topic_responses',
+					'topic_response'    => self::POST_TYPE . '_topic_response',
 				'topic_goto'            => self::POST_TYPE . '_topic_goto',
 				'topic_alert'           => self::POST_TYPE . '_topic_alert',
 	);
@@ -183,62 +185,59 @@ class Bot {
 					->set_help_text( __( 'Humans that should be alerted on alertable topics. A comma-separated e-mail list.', 'arniebot' ) ),
 			) );
 
-		Container::make( 'post_meta', __( 'Script Generics / Bot Introduction', 'arniebot' ) )
+		Container::make( 'post_meta', __( 'Script Generics', 'arniebot' ) )
 			->where( 'post_type', '=', self::POST_TYPE )
-			->add_fields( array(
+			->add_tab( __( 'Bot Introductions', 'arniebot' ), array(
 				Field::make( 'complex', self::$FIELDS['generics']['hello_responses'], __( 'Bot Introductions', 'arniebot' ) )
 					->set_help_text( __( 'The bot will randomly pick one of these when starting a conversation.', 'arniebot' ) )
 					->add_fields( array(
 						Field::make( 'rich_text', self::$FIELDS['generics']['hello_response'], __( 'Responses', 'arniebot' ) )
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Introductions', 'arniebot' ), 'singular_name' => __( 'Introduction', 'arniebot' ) ) )
-			) );
-
-		
-		Container::make( 'post_meta', __( 'Script Generics / Bot UDC', 'arniebot' ) )
-			->where( 'post_type', '=', self::POST_TYPE )
-			->add_fields( array(
-				Field::make( 'complex', self::$FIELDS['generics']['udc_responses'], __( 'Bot UDC Responses', 'arniebot' ) )
-					->set_help_text( __( "The bot will randomly pick one of these when it doesn't know what to respond.", 'arniebot' ) )
-					->add_fields( array(
-						Field::make( 'rich_text', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
-					) )
-					->setup_labels( array( 'plural_name' => __( 'UDC', 'arniebot' ), 'singular_name' => __( 'UDC', 'arniebot' ) ) )
-			) );
-
-		Container::make( 'post_meta', __( 'Script Generics / Bot Idle', 'arniebot' ) )
-			->where( 'post_type', '=', self::POST_TYPE )
-			->add_fields( array(
+					->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['generics']['hello_response'] ) )
+					->set_collapsed( true ),
+			) )
+			->add_tab(  __( 'Bot Idle Responses', 'arniebot' ), array(
 				Field::make( 'complex', self::$FIELDS['generics']['idle_responses'], __( 'Bot Idle Responses', 'arniebot' ) )
 					->set_help_text( __( 'The bot will randomly pick one of these when everyone is bored.', 'arniebot' ) )
 					->add_fields( array(
 						Field::make( 'rich_text', self::$FIELDS['generics']['idle_response'], __( 'Responses', 'arniebot' ) )
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Idle Responses', 'arniebot' ), 'singular_name' => __( 'Idle Response', 'arniebot' ) ) )
-			) );
-
-		Container::make( 'post_meta', __( 'Script Generics / Bot Yes', 'arniebot' ) )
-			->where( 'post_type', '=', self::POST_TYPE )
-			->add_fields( array(
+					->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['generics']['idle_response'] ) )
+					->set_collapsed( true ),
+			) )
+			->add_tab(  __( 'Bot UDC Responses', 'arniebot' ), array(
+				Field::make( 'complex', self::$FIELDS['generics']['udc_responses'], __( 'Bot UDC Responses', 'arniebot' ) )
+					->set_help_text( __( "The bot will randomly pick one of these when it doesn't know what to respond.", 'arniebot' ) )
+					->add_fields( array(
+						Field::make( 'rich_text', self::$FIELDS['generics']['udc_response'], __( 'Responses', 'arniebot' ) )
+					) )
+					->setup_labels( array( 'plural_name' => __( 'UDC', 'arniebot' ), 'singular_name' => __( 'UDC', 'arniebot' ) ) )
+					->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['generics']['udc_response'] ) )
+					->set_collapsed( true ),
+			) )
+			->add_tab(  __( 'Bot Yes Patterns', 'arniebot' ), array(
 				Field::make( 'complex', self::$FIELDS['generics']['yes_patterns'], __( 'Bot Yes Patterns', 'arniebot' ) )
 					->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
 					->add_fields( array(
 						Field::make( 'text', self::$FIELDS['generics']['yes_pattern'], __( 'Patterns', 'arniebot' ) )
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-					->set_layout( 'tabbed-vertical' ),
-			) );
-
-		Container::make( 'post_meta', __( 'Script Generics / Bot No', 'arniebot' ) )
-			->where( 'post_type', '=', self::POST_TYPE )
-			->add_fields( array(
+					->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['generics']['yes_pattern'] ) )
+					->set_layout( 'tabbed-vertical' )
+					->set_collapsed( true ),
+			) )
+			->add_tab(  __( 'Bot No Patterns', 'arniebot' ), array(
 				Field::make( 'complex', self::$FIELDS['generics']['no_patterns'], __( 'Bot No Patterns', 'arniebot' ) )
 					->set_help_text( __( 'An affirmative answer to the question at hand.', 'arniebot' ) )
 					->add_fields( array(
 						Field::make( 'text', self::$FIELDS['generics']['no_pattern'], __( 'Patterns', 'arniebot' ) )
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Patterns', 'arniebot' ), 'singular_name' => __( 'Pattern', 'arniebot' ) ) )
-					->set_layout( 'tabbed-vertical' ),
+					->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['generics']['no_pattern'] ) )
+					->set_layout( 'tabbed-vertical' )
+					->set_collapsed( true ),
 			) );
 
 		Container::make( 'post_meta', __( 'Script Topics', 'arniebot' ) )
@@ -254,17 +253,30 @@ class Bot {
 							->add_fields( array(
 								Field::make( 'text', self::$FIELDS['topic_pattern'], __( 'Topic Pattern', 'arniebot' ) )
 									->set_help_text( __( 'Comma-separated keywords, unordered. Regular expressions allowed.', 'arniebot' ) ),
-								Field::make( 'text', self::$FIELDS['topic_confirmation'], __( 'Topic Confirmation', 'arniebot' ) ),
-								Field::make( 'rich_text', self::$FIELDS['topic_response'], __( 'Topic Response', 'arniebot' ) ),
+								Field::make( 'text', self::$FIELDS['topic_confirmation'], __( 'Topic Confirmation', 'arniebot' ) )
+									->set_help_text( __( 'Confirm intent before moving to topic or sending alert.', 'arniebot' ) ),
+								Field::make( 'complex', self::$FIELDS['topic_responses'], __( 'Topic Responses', 'arniebot' ) )
+									->add_fields( array(
+										Field::make( 'rich_text', self::$FIELDS['topic_response'], __( 'Topic Response', 'arniebot' ) ),
+									) )
+									->setup_labels( array( 'plural_name' => __( 'Topic Responses', 'arniebot' ), 'singular_name' => __( 'Topic Response', 'arniebot' ) ) )
+									->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['topic_response'] ) )
+									->set_layout( 'tabbed-vertical' )
+									->set_collapsed( true ),
 								Field::make( 'checkbox', self::$FIELDS['topic_alert'], __( 'Alert humans.', 'arniebot' ) )
 									->set_help_text( __( 'A human will be alerted as this response is sent out via e-mail.', 'arniebot' ) ),
 								Field::make( 'text', self::$FIELDS['topic_goto'], __( 'Goto Topic', 'arniebot' ) )
 									->set_help_text( __( 'The conversation will be weighted towards this topic ID , if exists.', 'arniebot' ) ),
 							) )
 							->setup_labels( array( 'plural_name' => __( 'Topic Sets', 'arniebot' ), 'singular_name' => __( 'Topic Set', 'arniebot' ) ) )
+							->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['topic_pattern'] ) )
+							->set_layout( 'tabbed-vertical' )
+							->set_collapsed( true ),
 					) )
 					->setup_labels( array( 'plural_name' => __( 'Topics', 'arniebot' ), 'singular_name' => __( 'Topic', 'arniebot' ) ) )
-					->set_layout( 'tabbed-vertical' ),
+					->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['topic_id'] ) )
+					->set_layout( 'tabbed-vertical' )
+					->set_collapsed( true ),
 			) );
 	}
 
