@@ -26,6 +26,8 @@ class Bot {
 	 *                cuid   A universally unique identifier for this conversation.
 	 *                topic  The current topic.
 	 *                last   The last time anything was handled.
+	 *                log    All that's been said.
+	 *                idle   We've done the idle part.
 	 */
 	private $state = array();
 
@@ -104,6 +106,8 @@ class Bot {
 			'cuid'   => '',
 			'topic'  => '',
 			'last'   => null,
+			'idle'   => false,
+			'log'    => array(),
 		);
 	}
 
@@ -372,33 +376,62 @@ class Bot {
 			}
 
 			$this->state['last'] = time(); /** Rehandle the message if any. */
-			$response = array_merge( $response, $hello_responses[ array_rand( $hello_responses ) ], $this->handle( $message ) );
+			if ( $hello_responses ) {
+				$response = array_merge( $response, $hello_responses[ array_rand( $hello_responses ) ], $this->handle( $message ) );
+			}
 
 		/**
 		 * An empty message, a ping of sorts.
 		 * Maybe idle. Otherwise return nothing.
 		 */
 		} elseif ( ! $message ) {
+			/**
+			 * No messages were exchanged in the last 60 seconds.
+			 */
+			if ( $this->state['last'] < ( time() - 60 ) && ! $this->state['idle'] ) {
+				$this->state['idle'] = true;
+
+				/** Pick an idle line. */
+				$idle_responses = array();
+				foreach ( $this->get_field( self::$FIELDS['generics']['idle_responses'] ) as $idle_response ) {
+					$idle_responses[] = wp_list_pluck( $idle_response[ self::$FIELDS['generics']['idle_response'] ], self::$FIELDS['generics']['idle_response_line'] );
+				}
+
+				if ( $idle_responses ) {
+					$response = array_merge( $response, $idle_responses[ array_rand( $idle_responses ) ] );
+				}
+			}
 
 		/**
 		 * There's a message.
 		 */
 		} else {
+			$this->state['last'] = time();
+			$this->state['idle'] = false;
 		}
 
-		$this->state['last'] = time();
+		$response = array_filter( $response );
 
-		return array_filter( $response );
+		if ( $message ) {
+			$this->state['log'][] = '<' . json_encode( $message );
+		}
+
+		if ( count( $response ) ) {
+			$this->state['log'][] = '>' . json_encode( $response );
+		}
+
+		return $response;
 	}
 
 	/**
 	 * Retrieve a field.
 	 *
-	 * @param string $key The key.
+	 * @param string $key     The key.
+	 * @param mixed  $default A default value if none found.
 	 *
 	 * @return mixed
 	 */
-	public function get_field( $key ) {
-		return carbon_get_post_meta( $this->ID, $key );
+	public function get_field( $key, $default = array() ) {
+		return carbon_get_post_meta( $this->ID, $key ) ? : array();
 	}
 }

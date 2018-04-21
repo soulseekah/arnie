@@ -1,32 +1,7 @@
 <?php
 namespace ARNIE_Chat_Bot;
 
-class BotTest extends \WP_UnitTestCase {
-	public static function create_test_bot() {
-		$bot_id = self::factory()->post->create( array(
-			'post_type' => Bot::POST_TYPE,
-		) );
-
-		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['hello_responses']
-			. '[0]/' . Bot::$FIELDS['generics']['hello_response']
-			. '[0]/' . Bot::$FIELDS['generics']['hello_response_line'],
-			'Hello :)'
-		);
-
-		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['hello_responses']
-			. '[1]/' . Bot::$FIELDS['generics']['hello_response']
-			. '[0]/' . Bot::$FIELDS['generics']['hello_response_line'],
-			'Hey there!'
-		);
-		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['hello_responses']
-			. '[1]/' . Bot::$FIELDS['generics']['hello_response']
-			. '[1]/' . Bot::$FIELDS['generics']['hello_response_line'],
-			'How can we help you today?'
-		);
-
-		return Bot::get( $bot_id );
-	}
-
+class Bot_Test extends \WP_UnitTestCase {
 	public function test_get() {
 		$post_id = self::factory()->post->create( array() );
 
@@ -42,7 +17,7 @@ class BotTest extends \WP_UnitTestCase {
 	}
 
 	public function test_cuuid() {
-		$bot = self::create_test_bot();
+		$bot = Test_Utils::create_test_bot( self::factory() );
 
 		$uid = $bot->get_CUID();
 		$this->assertNotEmpty( $uid );
@@ -52,7 +27,7 @@ class BotTest extends \WP_UnitTestCase {
 	}
 
 	public function test_save_load() {
-		$bot = self::create_test_bot();
+		$bot = Test_Utils::create_test_bot( self::factory() );
 
 		$state = $bot->dump_state();
 
@@ -69,7 +44,7 @@ class BotTest extends \WP_UnitTestCase {
 	}
 
 	public function test_load_invalid() {
-		$bot = self::create_test_bot();
+		$bot = Test_Utils::create_test_bot( self::factory() );
 
 		$this->expectException( \Exception::class );
 
@@ -80,7 +55,7 @@ class BotTest extends \WP_UnitTestCase {
 	}
 
 	public function test_hello() {
-		$bot = self::create_test_bot();
+		$bot = Test_Utils::create_test_bot( self::factory() );
 
 		$response = $bot->handle( '' );
 
@@ -96,4 +71,28 @@ class BotTest extends \WP_UnitTestCase {
 		$this->assertEmpty( $bot->handle( '' ) );
 	}
 
+	public function test_idle() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+		$response = $bot->handle( '' );
+
+		$state = $bot->dump_state();
+		$state['last'] = time() - 30;
+		$bot->load_state( $state );
+
+		$this->assertEmpty( $bot->handle( '' ) );
+
+		$state = $bot->dump_state();
+		$state['last'] = time() - 70;
+		$bot->load_state( $state );
+
+		$response = $bot->handle( '' );
+
+		$this->assertContains( $response,
+			array(
+				array( 'You still there?' ),
+				array( 'Hello?' ),
+				array( 'Silence is golden.' ),
+			)
+		);
+	}
 }
