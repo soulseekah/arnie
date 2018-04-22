@@ -35,10 +35,12 @@ class Bot_Test extends \WP_UnitTestCase {
 		$this->assertEquals( $bot->get_CUID(), $state['cuid'] );
 
 		$bot = Bot::get( $bot->ID );
-		$bot->load_state( array(
-			'bid'  => $bot->ID,
-			'cuid' => 'one-two-three',
-		) );
+
+		$state = $bot->dump_state();
+		$state['bid']   = $bot->ID;
+		$state['cuid']  = 'one-two-three';
+
+		$bot->load_state( $bot->sign_state( $state ) );
 
 		$this->assertEquals( $bot->get_CUID(), 'one-two-three' );
 	}
@@ -74,13 +76,13 @@ class Bot_Test extends \WP_UnitTestCase {
 
 		$state = $bot->dump_state();
 		$state['last'] = time() - 30;
-		$bot->load_state( $state );
+		$bot->load_state( $bot->sign_state( $state ) );
 
 		$this->assertEmpty( $bot->handle( '' ) );
 
 		$state = $bot->dump_state();
 		$state['last'] = time() - 70;
-		$bot->load_state( $state );
+		$bot->load_state( $bot->sign_state( $state ) );
 
 		$response = $bot->handle( '' );
 
@@ -96,7 +98,7 @@ class Bot_Test extends \WP_UnitTestCase {
 		$this->assertTrue( $state['idle'] );
 
 		$state['last'] = time() - 170;
-		$bot->load_state( $state );
+		$bot->load_state( $bot->sign_state( $state ) );
 
 		$response = $bot->handle( '' );
 		

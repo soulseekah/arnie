@@ -53,7 +53,7 @@ class REST_Test extends \WP_UnitTestCase {
 		$data = $response->get_data();
 		$state = json_decode( base64_decode( $data['state'] ), true );
 
-		$this->assertEquals( array( 'bid', 'cuid', 'topic', 'last', 'idle', 'log' ), array_keys( $state ) );
+		$this->assertEquals( array( 'bid', 'cuid', 'topic', 'confirm', 'last', 'idle', 'log', 'sign' ), array_keys( $state ) );
 		$this->assertEquals( $bot->ID, $state['bid'] );
 		$this->assertLessThan( 3, abs( $state['last'] - time() ) );
 		$this->assertNotEmpty( $state['log'] );

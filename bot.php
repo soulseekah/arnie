@@ -351,14 +351,26 @@ class Bot {
 	 * Should be saved in a backend (session, localStorage, database, etc.)
 	 * and resumed later with `load_state`.
 	 *
-	 * @todo HMAC it to prevent fiddling! Sakuriteeeee!
-	 *
 	 * @return array The state.
 	 */
 	public function dump_state() {
-		return array_merge( $this->state, array(
+		$state = array_merge( $this->state, array(
 			'bid' => $this->ID,
 		) );
+		return $this->sign_state( $state );
+	}
+
+	/**
+	 * Sign a state array.
+	 *
+	 * @param array $state The state.
+	 *
+	 * @return array Signed state.
+	 */
+	public function sign_state( $state ) {
+		unset( $state['sign'] );
+		$state['sign'] = wp_hash( json_encode( $state ) );
+		return $state;
 	}
 
 	/**
@@ -373,6 +385,13 @@ class Bot {
 	public function load_state( $state ) {
 		$empty_bot = new self();
 		$this->state = wp_parse_args( $state, $empty_bot->dump_state() );
+
+		$signature = $this->state['sign'];
+		unset( $this->state['sign'] );
+
+		if ( $signature != wp_hash( json_encode( $this->state ) ) ) {
+			throw new \Exception( __( 'Invalid state for bot.', 'arniebot' ) );
+		}
 
 		if ( $this->state['bid'] != $this->ID ) {
 			throw new \Exception( __( 'Invalid state for bot.', 'arniebot' ) );
