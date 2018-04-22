@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: A.R.N.I.E \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/npobot\n"
-"POT-Creation-Date: 2018-04-22 12:34:25+00:00\n"
+"POT-Creation-Date: 2018-04-22 13:59:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -241,19 +241,23 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: bot.php:378
+#: bot.php:393 bot.php:397
 msgid "Invalid state for bot."
 msgstr ""
 
-#: bot.php:411
+#: bot.php:430
 msgid "A hello response has not been defined for this bot."
 msgstr ""
 
-#: bot.php:434
+#: bot.php:453
 msgid "An idle response has not been defined for this bot..."
 msgstr ""
 
-#: bot.php:523
+#: bot.php:533
+msgid "Chat Bot Log"
+msgstr ""
+
+#: bot.php:553
 msgid "A UDC response has not been defined for this bot."
 msgstr ""
 
