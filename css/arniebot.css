@@ -1,12 +1,71 @@
-.arniebot__chat__message {
-    width: 50%;
-    border: 1px solid gray;
-    margin: 10px 5px;
-    padding: 10px;
+*{
+    margin:0;
+    padding: 0;
 }
-.arniebot__chat__message--bot{
-    float: left;
+
+.arniebot{
+    position: relative;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 10px;
 }
-.arniebot__chat__message--user{
-    float: right;
+.arniebot__chat{
+    position: relative;
+}
+.arniebot__chat:after{
+    content:'';
+    display: table;
+    clear: both;
+}
+.arniebot .arniebot__chat__message{
+    position: relative;
+    padding: 15px;
+    border: 1px solid #21af8d;
+    max-width: 80%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 18px;
+    clear: both;
+}
+.arniebot .arniebot__chat__message:after{
+    content:'';
+    display: table;
+    clear: both;
+}
+.arniebot .arniebot__chat__message.arniebot__chat__message--bot{float: right; background: #21af8d; color:#fff;border-radius: 20px 0 20px 20px;}
+.arniebot .arniebot__chat__message.arniebot__chat__message--user{float: left; background: #fff; color:#21af8d;border-radius: 0 20px 20px 20px;}
+
+.arniebot__client-form{
+    display: block;
+    margin-top:20px;
+}
+.arniebot__client-form textarea{
+    display: block;
+    width: 100%;
+    resize: vertical;
+    border-radius: 20px;
+    background: #fff; color:#222;
+    outline: none;
+    padding: 15px;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+.arniebot_btn{text-align: center;}
+.arniebot_btn .client-board__message__send{
+    display: inline-block;
+    padding: 15px;
+    background: #21af8d;
+    border: 1px solid #21af8d;
+    transition: all 0.4s ease;
+    margin: 20px auto 0;
+    cursor: pointer;
+    min-width: 150px;
+    border-radius: 20px;
+    color:#fff;
+    font-weight: bold;
+}
+.arniebot_btn .client-board__message__send:hover{
+    background: transparent;
+    color:#21af8d;
 }
