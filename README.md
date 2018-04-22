@@ -11,6 +11,12 @@
 
 [https://doaction.pjtsu.com/](https://doaction.pjtsu.com/)
 
+## Скриншоты
+
+![Редактор сценариев](https://raw.githubusercontent.com/soulseekah/arnie/master/screenshots/screenshot-01.png)
+![Редактор сценариев](https://raw.githubusercontent.com/soulseekah/arnie/master/screenshots/screenshot-02.png)
+![Пример чата](https://raw.githubusercontent.com/soulseekah/arnie/master/screenshots/screenshot-03.png)
+
 ## Состав команды
 
 Разрабатываемый на [хакатоне `do_action`](https://doaction.te-st.ru/) 21-22 апреля 2018 командой "[Второе Дыхание](https://www.facebook.com/vtd.fond/)" в составе:
