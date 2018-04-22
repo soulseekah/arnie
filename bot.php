@@ -460,6 +460,7 @@ class Bot {
 		} else {
 			$this->state['last'] = time();
 			$this->state['idle'] = false;
+			$this->state['log'][] = '<' . json_encode( $message );
 
 			/**
 			 * Parse a confirmation message.
@@ -517,20 +518,28 @@ class Bot {
 				/** Sort by score. */
 				usort( $matches, function( $a, $b ) {
 					if ( $a['points'] == $b['points'] ) {
-						return 0;
+						return rand( -1, 1 );
 					}
 					return $a['points'] < $b['points'] ? 1 : -1;
 				} );
 
-				/** Grab the top 5% of matches and return them as responses. */
-				$slice = max( 1, count( $matches ) * 0.05 );
-				foreach ( array_slice( $matches, 0, $slice ) as $match ) {
-					$response[] = $match['responses'][ array_rand( $match['responses'] ) ];
+				$match = array_shift( $matches );
+
+				$response[] = $match['responses'][ array_rand( $match['responses'] ) ];
+
+				if ( $match['alert'] && ( $emails = explode( ',', $this->get_field( self::$FIELDS['humans'], '' ) ) ) ) {
+					foreach ( $emails as $email ) {
+						if ( is_email( $email = trim( $email ) ) ) {
+							wp_mail( $email, __( 'Chat Bot Log', 'arniebot' ), implode( "\n", $this->state['log'] ) );
+						}
+					}
+				}
+
+				if ( $match['goto'] ) {
+					$this->state['goto'] = $match['goto'];
 				}
 
 				// @todo confirmation
-				// @todo alert
-				// @todo goto
 			} else {
 				/** Pick a UDC line. */
 				$udc_responses = wp_list_pluck(
@@ -547,10 +556,6 @@ class Bot {
 		}
 
 		$response = array_filter( $response );
-
-		if ( $message ) {
-			$this->state['log'][] = '<' . json_encode( $message );
-		}
 
 		if ( count( $response ) ) {
 			$this->state['log'][] = '>' . json_encode( $response );

@@ -53,6 +53,11 @@ class Test_Utils {
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['stopwords'], " are,your ,you're,I,am" );
 
 		/**
+		 * Humans.
+		 */
+		carbon_set_post_meta( $bot_id, Bot::$FIELDS['humans'], "test@localhost.lo" );
+
+		/**
 		 * Topics.
 		 */
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['topics']

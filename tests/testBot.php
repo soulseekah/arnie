@@ -151,10 +151,15 @@ class Bot_Test extends \WP_UnitTestCase {
 	}
 
 	public function test_alert() {
+		reset_phpmailer_instance();
+
 		$bot = Test_Utils::create_test_bot( self::factory() );
 		$response = $bot->handle( '' );
 
 		$response = $bot->handle( 'Can you call me on +7 123 345 644, please?' );
 		$this->assertEquals( 'Thanks! One of our humans will get back to you soon!', $response[0] );
+
+		$mailer = tests_retrieve_phpmailer_instance();
+		$this->assertContains( 'call me', $mailer->get_sent()->body );
 	}
 }
