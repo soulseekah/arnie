@@ -7,8 +7,10 @@
 			chatClass: '.arniebot__chat',
 			interval: 15000, // 15 sec
 			state: null,
+			soundPath: null,
 			init: function () {
 				this.currentBotId = $( this.botWrapperClass ).data( 'id' );
+				this.soundPath = $( this.botWrapperClass ).data( 'sound-path' );
 				this.events();
 				this.send( this.currentBotId, '' );
 				this.runPolling();
@@ -49,6 +51,8 @@
 						self.updateState( data.state );
 						if ( data.response.length != 0 ) {
 							$( self.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--bot">' + data.response + '</div>' );
+							var audio = new Audio(self.soundPath);
+							audio.play();
 						}
 					},
 					error: function ( er ) {
