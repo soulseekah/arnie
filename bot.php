@@ -502,11 +502,13 @@ class Bot {
 
 					if ( $points ) {
 						$responses    = wp_list_pluck( $set[ self::$FIELDS['topic_responses'] ], self::$FIELDS['topic_response'] );
-						$alert        = $set[ self::$FIELDS['topic_alert'] ];
-						$goto         = $set[ self::$FIELDS['topic_goto'] ];
-						$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
+						if ( $responses ) {
+							$alert        = $set[ self::$FIELDS['topic_alert'] ];
+							$goto         = $set[ self::$FIELDS['topic_goto'] ];
+							$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
 
-						$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
+							$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
+						}
 					}
 				}
 			}
