@@ -477,13 +477,13 @@ class Bot {
 
 			/** Filter stop words. */
 			$stopwords = array_map( 'trim', array_map( 'strtolower', explode( ',', $this->get_field( self::$FIELDS['stopwords'], '' ) ) ) );
-			$words = array_diff( $words, $stopwords );
+			$words = array_diff( $words, array_filter( $stopwords ) );
 
 			/** Parse topics and patterns. */
 			$matches = array();
 			foreach ( $this->get_field( self::$FIELDS['topics'] ) as $topic ) {
 				foreach ( $topic[ self::$FIELDS['topic_sets'] ] as $set ) {
-					$keywords = array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) );
+					$keywords = array_filter( array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) ) );
 					$points   = 0;
 
 					foreach ( $keywords as $keyword ) {
