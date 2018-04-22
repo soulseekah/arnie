@@ -22,12 +22,13 @@ class Bot {
 
 	/**
 	 * @var array The state of this bot. Fields:
-	 *                bid    The bot ID.
-	 *                cuid   A universally unique identifier for this conversation.
-	 *                topic  The current topic.
-	 *                last   The last time anything was handled.
-	 *                log    All that's been said.
-	 *                idle   We've done the idle part.
+	 *                bid     The bot ID.
+	 *                cuid    A universally unique identifier for this conversation.
+	 *                topic   The current topic.
+	 *                confirm Confirmation mode.
+	 *                last    The last time anything was handled.
+	 *                log     All that's been said.
+	 *                idle    We've done the idle part.
 	 */
 	private $state = array();
 
@@ -109,12 +110,13 @@ class Bot {
 
 	public function __construct() {
 		$this->state = array(
-			'bid'    => $this->ID,
-			'cuid'   => '',
-			'topic'  => '',
-			'last'   => null,
-			'idle'   => false,
-			'log'    => array(),
+			'bid'     => $this->ID,
+			'cuid'    => '',
+			'topic'   => '',
+			'confirm' => false,
+			'last'    => null,
+			'idle'    => false,
+			'log'     => array(),
 		);
 	}
 
@@ -321,7 +323,14 @@ class Bot {
 	 * @return \ARNIE_Chat_Bot The bot.
 	 */
 	public function reset() {
-		$this->state['cuid'] = wp_generate_uuid4();
+		$this->state['bid']      = $this->ID;
+		$this->state['cuid']     = wp_generate_uuid4();
+		$this->state['topic']    = '';
+		$this->state['confirm']  = false;
+		$this->state['last']     = false;
+		$this->state['log']      = array();
+		$this->state['idle']     = false;
+
 		return $this;
 	}
 
@@ -339,6 +348,8 @@ class Bot {
 	 *
 	 * Should be saved in a backend (session, localStorage, database, etc.)
 	 * and resumed later with `load_state`.
+	 *
+	 * @todo HMAC it to prevent fiddling! Sakuriteeeee!
 	 *
 	 * @return array The state.
 	 */
@@ -429,16 +440,86 @@ class Bot {
 			$this->state['last'] = time();
 			$this->state['idle'] = false;
 
-			/** Pick an udc line. */
-			$udc_responses = wp_list_pluck(
-				$this->get_field( self::$FIELDS['generics']['udc_responses'] ),
-				self::$FIELDS['generics']['udc_response']
-			);
+			/**
+			 * Parse a confirmation message.
+			 * @todo
+			 */
+			if ( $this->state['confirm'] ) {
+				// Yes or no
+				// Say one of the responses stored in confirm.
+			}
 
-			if ( $udc_responses ) {
-				$response[] = $udc_responses[ array_rand( $udc_responses ) ];
+			/** Parse the message and try to figure it out. */
+
+			/** Split words and lowercase them. */
+			$words = array_map( 'strtolower', array_filter( preg_split( '#[?!., ]#', $message ) ) );
+
+			/** Filter stop words. */
+			$stopwords = array_map( 'trim', array_map( 'strtolower', explode( ',', $this->get_field( self::$FIELDS['stopwords'], '' ) ) ) );
+			$words = array_diff( $words, $stopwords );
+
+			/** Parse topics and patterns. */
+			$matches = array();
+			foreach ( $this->get_field( self::$FIELDS['topics'] ) as $topic ) {
+				foreach ( $topic[ self::$FIELDS['topic_sets'] ] as $set ) {
+					$keywords = array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) );
+					$points   = 0;
+
+					foreach ( $keywords as $keyword ) {
+						foreach ( $words as $word ) {
+							if ( preg_match( "#$keyword#", $word ) ) {
+								$points++;
+							}
+							if ( $topic[ self::$FIELDS['topic_id'] ] == $word ) {
+								$points++;
+							}
+							if ( $topic[ self::$FIELDS['topic_id'] ] == $this->state['topic']) {
+								$points++;
+							}
+						}
+					}
+
+					if ( $points ) {
+						$responses    = wp_list_pluck( $set[ self::$FIELDS['topic_responses'] ], self::$FIELDS['topic_response'] );
+						$alert        = $set[ self::$FIELDS['topic_alert'] ];
+						$goto         = $set[ self::$FIELDS['topic_goto'] ];
+						$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
+
+						$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
+					}
+				}
+			}
+
+			if ( $matches ) {
+				/** Sort by score. */
+				usort( $matches, function( $a, $b ) {
+					if ( $a['points'] == $b['points'] ) {
+						return 0;
+					}
+					return $a['points'] < $b['points'] ? 1 : -1;
+				} );
+
+				/** Grab the top 5% of matches and return them as responses. */
+				$slice = max( 1, count( $matches ) * 0.05 );
+				foreach ( array_slice( $matches, 0, $slice ) as $match ) {
+					$response[] = $match['responses'][ array_rand( $match['responses'] ) ];
+				}
+
+				// @todo confirmation
+				// @todo alert
+				// @todo goto
 			} else {
-				$response[] = __( 'A UDC response has not been defined for this bot.', 'arniebot' );
+				/** Pick a UDC line. */
+				$udc_responses = wp_list_pluck(
+					$this->get_field( self::$FIELDS['generics']['udc_responses'] ),
+					self::$FIELDS['generics']['udc_response']
+				);
+
+				if ( $udc_responses ) {
+					$response[] = $udc_responses[ array_rand( $udc_responses ) ];
+				} else {
+					$response[] = __( 'A UDC response has not been defined for this bot.', 'arniebot' );
+				}
 			}
 		}
 
@@ -464,6 +545,6 @@ class Bot {
 	 * @return mixed
 	 */
 	public function get_field( $key, $default = array() ) {
-		return carbon_get_post_meta( $this->ID, $key ) ? : array();
+		return carbon_get_post_meta( $this->ID, $key ) ? : $default;
 	}
 }

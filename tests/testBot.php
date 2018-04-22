@@ -139,4 +139,20 @@ class Bot_Test extends \WP_UnitTestCase {
 			array( 'Sorry what?', "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." )
 		);
 	}
+
+	public function test_topic() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+		$response = $bot->handle( '' );
+
+		$response = $bot->handle( 'Where are your   stores located  ?' );
+		$this->assertEquals( 'We have various locations around the city :)', $response[0] );
+	}
+
+	public function test_alert() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+		$response = $bot->handle( '' );
+
+		$response = $bot->handle( 'Can you call me on +7 123 345 644, please?' );
+		$this->assertEquals( 'Thanks! One of our humans will get back to you soon!', $response[0] );
+	}
 }
