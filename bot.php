@@ -284,11 +284,13 @@ class Bot {
         wp_enqueue_script( 'arniebot', plugins_url( '/js/arniebot.js', __FILE__ ) );
         wp_enqueue_style( 'arniebot', plugins_url( '/css/arniebot.css', __FILE__ ) );
 
-        $html = '<div class="arniebot" data-bot-id="' . esc_attr( $atts[ 'id' ] ) . '">
+        $html = '<div class="arniebot" data-id="' . esc_attr( $atts[ 'id' ] ) . '">
                 <div class="arniebot__chat"></div>
                 <form class="arniebot__client-form">
                     <textarea class="client-board__message"></textarea><br>
-                    <input class="client-board__message__send" type="submit" value="' . esc_attr__( 'Send', 'arniebot' ) .'">
+                    <div class="arniebot_btn">
+                    	<input class="client-board__message__send" type="submit" value="' . esc_attr__( 'Send', 'arniebot' ) .'">
+                    </div>
                 </form>
                 </div>';
         return $html;

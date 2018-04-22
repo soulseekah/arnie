@@ -5,23 +5,25 @@
 			botWrapperClass: '.arniebot',
 			userMessageClass: '.client-board__message',
 			chatClass: '.arniebot__chat',
+			interval: 15000, // 15 sec
 			state: null,
 			init: function () {
-				this.currentBotId = $( this.botWrapperClass ).data( 'bot-id' );
+				this.currentBotId = $( this.botWrapperClass ).data( 'id' );
 				this.events();
+				this.send( this.currentBotId, '' );
+				this.runPolling();
 			},
 			events: function () {
 				self = this;
 				$( document ).on( 'click', '.client-board__message__send', function ( e ) {
 					e.preventDefault();
-					self.send( self.currentBotId, $( self.userMessageClass ).val() );
+					self.send( self.currentBotId, self.getUserMessage() );
 				} );
 			},
 			send: function ( botId, message ) { // send message to bot
-				if ( ! message ) {
-					return;
+				if(message !== ''){
+					$( this.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--user">' + message + '</div>' );
 				}
-				$( this.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--user">' + message + '</div>' );
 				var data = {'message': message, 'state': this.state},
 					//if first request - POST, otherwise - PUT
 					requestMethod = (
@@ -34,13 +36,30 @@
 					dataType: 'json',
 					data: data,
 					success: function ( data ) {
-						self.state = data.state;
-						$( self.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--bot">' + data.response + '</div>' );
+						self.updateState( data.state );
+						if ( data.response.length != 0 ) {
+							$( self.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--bot">' + data.response + '</div>' );
+						}
 					},
 					error: function ( er ) {
 						console.log( er );
 					}
 				} );
+			},
+			runPolling: function () {
+				self = this;
+				pollInterval = setInterval( function () {
+					self.poll();
+				}, self.interval );
+			},
+			getUserMessage: function () {
+				return $( this.userMessageClass ).val();
+			},
+			poll: function () {
+				this.send( this.currentBotId, '' );
+			},
+			updateState: function ( state ) {
+				this.state = state;
 			}
 		};
 
