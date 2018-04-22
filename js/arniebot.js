@@ -18,9 +18,19 @@
 				$( document ).on( 'click', '.client-board__message__send', function ( e ) {
 					e.preventDefault();
 					self.send( self.currentBotId, self.getUserMessage() );
+					$( self.userMessageClass ).val('');
 				} );
+
+				$(document).on('keydown', function(e) {
+					if (e.which == 13) {
+						e.preventDefault();
+						self.send( self.currentBotId, self.getUserMessage() );
+						$( self.userMessageClass ).val('');
+					}
+				});
 			},
 			send: function ( botId, message ) { // send message to bot
+				message = this.filterString(message);
 				if(message !== ''){
 					$( this.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--user">' + message + '</div>' );
 				}
@@ -60,6 +70,9 @@
 			},
 			updateState: function ( state ) {
 				this.state = state;
+			},
+			filterString: function ( str ) {
+				return str.replace(/<.*?>/g, "");
 			}
 		};
 

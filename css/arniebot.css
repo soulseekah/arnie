@@ -11,7 +11,18 @@
 }
 .arniebot__chat{
     position: relative;
+    overflow-y: scroll;
+    max-height: 600px;
 }
+/* хром, сафари */
+.arniebot__chat::-webkit-scrollbar { width: 0; }
+
+/* ie 10+ */
+.arniebot__chat { -ms-overflow-style: none; }
+
+/* фф (свойство больше не работает, других способов тоже нет)*/
+.arniebot__chat { overflow: -moz-scrollbars-none; }
+
 .arniebot__chat:after{
     content:'';
     display: table;
