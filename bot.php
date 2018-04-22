@@ -411,6 +411,8 @@ class Bot {
 
 		$response = array();
 
+		add_filter( 'the_content', 'trim' );
+
 		/**
 		 * A new conversation with an empty message.
 		 * Greet.
@@ -425,7 +427,7 @@ class Bot {
 
 			$this->state['last'] = time(); /** Rehandle the message if any. */
 			if ( $hello_responses ) {
-				$response = array_merge( $response, array( $hello_responses[ array_rand( $hello_responses ) ] ), $this->handle( $message ) );
+				$response = array_merge( $response, array( apply_filters( 'the_content', $hello_responses[ array_rand( $hello_responses ) ] ) ), $this->handle( $message ) );
 			} else {
 				$response[] = __( 'A hello response has not been defined for this bot.', 'arniebot' );
 			}
@@ -448,7 +450,7 @@ class Bot {
 				);
 
 				if ( $idle_responses ) {
-					$response[] = $idle_responses[ array_rand( $idle_responses ) ];
+					$response[] = apply_filters( 'the_content', $idle_responses[ array_rand( $idle_responses ) ] );
 				} else {
 					$response[] = __( 'An idle response has not been defined for this bot...', 'arniebot' );
 				}
@@ -525,7 +527,7 @@ class Bot {
 
 				$match = array_shift( $matches );
 
-				$response[] = $match['responses'][ array_rand( $match['responses'] ) ];
+				$response[] = apply_filters( 'the_content', $match['responses'][ array_rand( $match['responses'] ) ] );
 
 				if ( $match['alert'] && ( $emails = explode( ',', $this->get_field( self::$FIELDS['humans'], '' ) ) ) ) {
 					foreach ( $emails as $email ) {
@@ -548,7 +550,7 @@ class Bot {
 				);
 
 				if ( $udc_responses ) {
-					$response[] = $udc_responses[ array_rand( $udc_responses ) ];
+					$response[] = apply_filters( 'the_content', $udc_responses[ array_rand( $udc_responses ) ] );
 				} else {
 					$response[] = __( 'A UDC response has not been defined for this bot.', 'arniebot' );
 				}
