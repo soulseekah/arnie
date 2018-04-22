@@ -244,7 +244,7 @@ class Bot {
 										Field::make( 'rich_text', self::$FIELDS['topic_response'], __( 'Topic Response', 'arniebot' ) ),
 									) )
 									->setup_labels( array( 'plural_name' => __( 'Topic Responses', 'arniebot' ), 'singular_name' => __( 'Topic Response', 'arniebot' ) ) )
-									->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', substr(self::$FIELDS['topic_response'], 0, 10)) )
+									->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['topic_response'] ) )
 									->set_layout( 'tabbed-vertical' )
 									->set_collapsed( true ),
 								Field::make( 'checkbox', self::$FIELDS['topic_alert'], __( 'Alert humans.', 'arniebot' ) )
@@ -253,7 +253,7 @@ class Bot {
 									->set_help_text( __( 'The conversation will be weighted towards this topic ID , if exists.', 'arniebot' ) ),
 							) )
 							->setup_labels( array( 'plural_name' => __( 'Topic Sets', 'arniebot' ), 'singular_name' => __( 'Topic Set', 'arniebot' ) ) )
-							->set_header_template( sprintf( '<%%- %s %%>', substr(self::$FIELDS['topic_pattern'],0,10) ) )
+							->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['topic_pattern'] ) )
 							->set_layout( 'tabbed-vertical' )
 							->set_collapsed( true ),
 					) )
@@ -460,7 +460,6 @@ class Bot {
 		} else {
 			$this->state['last'] = time();
 			$this->state['idle'] = false;
-			$this->state['log'][] = '<' . json_encode( $message );
 
 			/**
 			 * Parse a confirmation message.
@@ -478,13 +477,13 @@ class Bot {
 
 			/** Filter stop words. */
 			$stopwords = array_map( 'trim', array_map( 'strtolower', explode( ',', $this->get_field( self::$FIELDS['stopwords'], '' ) ) ) );
-			$words = array_diff( $words, array_filter( $stopwords ) );
+			$words = array_diff( $words, $stopwords );
 
 			/** Parse topics and patterns. */
 			$matches = array();
 			foreach ( $this->get_field( self::$FIELDS['topics'] ) as $topic ) {
 				foreach ( $topic[ self::$FIELDS['topic_sets'] ] as $set ) {
-					$keywords = array_filter( array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) ) );
+					$keywords = array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) );
 					$points   = 0;
 
 					foreach ( $keywords as $keyword ) {
@@ -503,13 +502,11 @@ class Bot {
 
 					if ( $points ) {
 						$responses    = wp_list_pluck( $set[ self::$FIELDS['topic_responses'] ], self::$FIELDS['topic_response'] );
-						if ( $responses ) {
-							$alert        = $set[ self::$FIELDS['topic_alert'] ];
-							$goto         = $set[ self::$FIELDS['topic_goto'] ];
-							$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
+						$alert        = $set[ self::$FIELDS['topic_alert'] ];
+						$goto         = $set[ self::$FIELDS['topic_goto'] ];
+						$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
 
-							$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
-						}
+						$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
 					}
 				}
 			}
@@ -518,28 +515,20 @@ class Bot {
 				/** Sort by score. */
 				usort( $matches, function( $a, $b ) {
 					if ( $a['points'] == $b['points'] ) {
-						return rand( -1, 1 );
+						return 0;
 					}
 					return $a['points'] < $b['points'] ? 1 : -1;
 				} );
 
-				$match = array_shift( $matches );
-
-				$response[] = $match['responses'][ array_rand( $match['responses'] ) ];
-
-				if ( $match['alert'] && ( $emails = explode( ',', $this->get_field( self::$FIELDS['humans'], '' ) ) ) ) {
-					foreach ( $emails as $email ) {
-						if ( is_email( $email = trim( $email ) ) ) {
-							wp_mail( $email, __( 'Chat Bot Log', 'arniebot' ), implode( "\n", $this->state['log'] ) );
-						}
-					}
-				}
-
-				if ( $match['goto'] ) {
-					$this->state['goto'] = $match['goto'];
+				/** Grab the top 5% of matches and return them as responses. */
+				$slice = max( 1, count( $matches ) * 0.05 );
+				foreach ( array_slice( $matches, 0, $slice ) as $match ) {
+					$response[] = $match['responses'][ array_rand( $match['responses'] ) ];
 				}
 
 				// @todo confirmation
+				// @todo alert
+				// @todo goto
 			} else {
 				/** Pick a UDC line. */
 				$udc_responses = wp_list_pluck(
@@ -556,6 +545,10 @@ class Bot {
 		}
 
 		$response = array_filter( $response );
+
+		if ( $message ) {
+			$this->state['log'][] = '<' . json_encode( $message );
+		}
 
 		if ( count( $response ) ) {
 			$this->state['log'][] = '>' . json_encode( $response );
