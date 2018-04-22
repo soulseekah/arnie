@@ -62,7 +62,7 @@ class Bot_Test extends \WP_UnitTestCase {
 		$response = $bot->handle( '' );
 
 		$this->assertContains( $response[0],
-			array( 'Hello :)', 'Hey there! How can we help you today?' )
+			array( '<p>Hello 🙂</p>', '<p>Hey there! How can we help you today?</p>' )
 		);
 
 		$response = $bot->handle( '' );
@@ -88,9 +88,9 @@ class Bot_Test extends \WP_UnitTestCase {
 
 		$this->assertContains( $response,
 			array(
-				array( 'You still there?' ),
-				array( 'Hello?' ),
-				array( 'Silence is golden.' ),
+				array( '<p>You still there?</p>' ),
+				array( '<p>Hello?</p>' ),
+				array( '<p>Silence is golden.</p>' ),
 			)
 		);
 
@@ -113,8 +113,8 @@ class Bot_Test extends \WP_UnitTestCase {
 
 		$this->assertContains( $response,
 			array(
-				array( 'Sorry what?' ),
-				array( "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." ),
+				array( '<p>Sorry what?</p>' ),
+				array( "<p>Hey, I really don&#8217;t understand. Leave your name, number and/or e-mail and my human master will get back to you.</p>" ),
 			)
 		);
 
@@ -122,8 +122,8 @@ class Bot_Test extends \WP_UnitTestCase {
 
 		$this->assertContains( $response,
 			array(
-				array( 'Sorry what?' ),
-				array( "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." ),
+				array( '<p>Sorry what?</p>' ),
+				array( "<p>Hey, I really don&#8217;t understand. Leave your name, number and/or e-mail and my human master will get back to you.</p>" ),
 			)
 		);
 	}
@@ -134,11 +134,11 @@ class Bot_Test extends \WP_UnitTestCase {
 		$response = $bot->handle( '私はロボットです' );
 
 		$this->assertContains( $response[0],
-			array( 'Hello :)', 'Hey there! How can we help you today?' )
+			array( '<p>Hello 🙂</p>', '<p>Hey there! How can we help you today?</p>' )
 		);
 
 		$this->assertContains( $response[1],
-			array( 'Sorry what?', "Hey, I really don't understand. Leave your name, number and/or e-mail and my human master will get back to you." )
+			array( '<p>Sorry what?</p>', "<p>Hey, I really don&#8217;t understand. Leave your name, number and/or e-mail and my human master will get back to you.</p>" )
 		);
 	}
 
@@ -147,7 +147,7 @@ class Bot_Test extends \WP_UnitTestCase {
 		$response = $bot->handle( '' );
 
 		$response = $bot->handle( 'Where are your   stores located  ?' );
-		$this->assertEquals( 'We have various locations around the city :)', $response[0] );
+		$this->assertEquals( '<p>We have various locations around the city 🙂</p>', $response[0] );
 	}
 
 	public function test_alert() {
@@ -157,7 +157,7 @@ class Bot_Test extends \WP_UnitTestCase {
 		$response = $bot->handle( '' );
 
 		$response = $bot->handle( 'Can you call me on +7 123 345 644, please?' );
-		$this->assertEquals( 'Thanks! One of our humans will get back to you soon!', $response[0] );
+		$this->assertEquals( '<p>Thanks! One of our humans will get back to you soon!</p>', $response[0] );
 
 		$mailer = tests_retrieve_phpmailer_instance();
 		$this->assertContains( 'call me', $mailer->get_sent()->body );
