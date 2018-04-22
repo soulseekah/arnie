@@ -36,6 +36,12 @@ class Test_Utils {
 		);
 
 		/**
+		 * Yes and no generics.
+		 */
+		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['yes_pattern'], 'yes,yep,certainly, sure,absolutely' );
+		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['no_pattern'], 'no,nope' );
+
+		/**
 		 * UDC responses.
 		 */
 		carbon_set_post_meta( $bot_id, Bot::$FIELDS['generics']['udc_responses']

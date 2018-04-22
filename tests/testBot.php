@@ -162,4 +162,28 @@ class Bot_Test extends \WP_UnitTestCase {
 		$mailer = tests_retrieve_phpmailer_instance();
 		$this->assertContains( 'call me', $mailer->get_sent()->body );
 	}
+
+	public function test_confirmation_and_goto() {
+		$bot = Test_Utils::create_test_bot( self::factory() );
+		$response = $bot->handle( '' );
+
+		$response = $bot->handle( 'Help! One of your is being vandalized!' );
+		$this->assertEquals( '<p>Oh, no! One of our locations has been vanalized?</p>', $response[0] );
+
+		$state = $bot->dump_state();
+		$this->assertNotEmpty( $state['confirm'] );
+
+		$this->assertEmpty( $bot->handle( '' ) );
+		$this->assertEmpty( $bot->handle( '' ) );
+
+		$this->assertEmpty( $bot->handle( 'lol' ) );
+
+		$this->assertEmpty( $bot->handle( 'no' ) );
+
+		$response = $bot->handle( 'yes' );
+		$this->assertEquals( '<p>We will investigate. Please leave your name, number, e-mail.</p>', $response[0] );
+
+		$state = $bot->dump_state();
+		$this->assertEquals( 'contact', $state['topic'] );
+	}
 }

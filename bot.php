@@ -464,17 +464,6 @@ class Bot {
 			$this->state['idle'] = false;
 			$this->state['log'][] = '<' . json_encode( $message );
 
-			/**
-			 * Parse a confirmation message.
-			 * @todo
-			 */
-			if ( $this->state['confirm'] ) {
-				// Yes or no
-				// Say one of the responses stored in confirm.
-			}
-
-			/** Parse the message and try to figure it out. */
-
 			/** Split words and lowercase them. */
 			$words = array_map( 'strtolower', array_filter( preg_split( '#[?!., ]#', $message ) ) );
 
@@ -482,77 +471,105 @@ class Bot {
 			$stopwords = array_map( 'trim', array_map( 'strtolower', explode( ',', $this->get_field( self::$FIELDS['stopwords'], '' ) ) ) );
 			$words = array_diff( $words, array_filter( $stopwords ) );
 
-			/** Parse topics and patterns. */
-			$matches = array();
-			foreach ( $this->get_field( self::$FIELDS['topics'] ) as $topic ) {
-				foreach ( $topic[ self::$FIELDS['topic_sets'] ] as $set ) {
-					$keywords = array_filter( array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) ) );
-					$points   = 0;
+			/**
+			 * Parse a confirmation message.
+			 */
+			if ( $this->state['confirm'] ) {
+				$yes = array_map( 'trim', array_map( 'strtolower', explode( ',', $this->get_field( self::$FIELDS['generics']['yes_pattern'], '' ) ) ) );
+				$no = array_map( 'trim', array_map( 'strtolower', explode( ',', $this->get_field( self::$FIELDS['generics']['no_pattern'], '' ) ) ) );
 
-					foreach ( $keywords as $keyword ) {
-						foreach ( $words as $word ) {
-							if ( preg_match( "#$keyword#", $word ) ) {
-								$points++;
-							}
-							if ( $topic[ self::$FIELDS['topic_id'] ] == $word ) {
-								$points++;
-							}
-							if ( $topic[ self::$FIELDS['topic_id'] ] == $this->state['topic']) {
-								$points++;
-							}
-						}
-					}
 
-					if ( $points ) {
-						$responses    = wp_list_pluck( $set[ self::$FIELDS['topic_responses'] ], self::$FIELDS['topic_response'] );
-						if ( $responses ) {
-							$alert        = $set[ self::$FIELDS['topic_alert'] ];
-							$goto         = $set[ self::$FIELDS['topic_goto'] ];
-							$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
+				if ( array_intersect( $words, $no ) ) {
+					/**
+					 * Can't understand.
+					 */
+				} else if ( array_intersect( $words, $yes ) ) {
+					/**
+					 * Send the stored response.
+					 */
+					$match = $this->state['confirm'];
+					$this->state['topic'] = $match['goto'];
 
-							$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
-						}
-					}
+					$response[] = apply_filters( 'the_content', $match['responses'][ array_rand( $match['responses'] ) ] );
+					$this->state['confirm'] = false;
 				}
-			}
-
-			if ( $matches ) {
-				/** Sort by score. */
-				usort( $matches, function( $a, $b ) {
-					if ( $a['points'] == $b['points'] ) {
-						return rand( -1, 1 );
-					}
-					return $a['points'] < $b['points'] ? 1 : -1;
-				} );
-
-				$match = array_shift( $matches );
-
-				$response[] = apply_filters( 'the_content', $match['responses'][ array_rand( $match['responses'] ) ] );
-
-				if ( $match['alert'] && ( $emails = explode( ',', $this->get_field( self::$FIELDS['humans'], '' ) ) ) ) {
-					foreach ( $emails as $email ) {
-						if ( is_email( $email = trim( $email ) ) ) {
-							wp_mail( $email, __( 'Chat Bot Log', 'arniebot' ), implode( "\n", $this->state['log'] ) );
-						}
-					}
-				}
-
-				if ( $match['goto'] ) {
-					$this->state['goto'] = $match['goto'];
-				}
-
-				// @todo confirmation
+				
 			} else {
-				/** Pick a UDC line. */
-				$udc_responses = wp_list_pluck(
-					$this->get_field( self::$FIELDS['generics']['udc_responses'] ),
-					self::$FIELDS['generics']['udc_response']
-				);
+				/** Parse topics and patterns. */
+				$matches = array();
+				foreach ( $this->get_field( self::$FIELDS['topics'] ) as $topic ) {
+					foreach ( $topic[ self::$FIELDS['topic_sets'] ] as $set ) {
+						$keywords = array_filter( array_map( 'trim', array_map( 'strtolower', explode( ',', $set[ self::$FIELDS['topic_pattern'] ] ) ) ) );
+						$points   = 0;
 
-				if ( $udc_responses ) {
-					$response[] = apply_filters( 'the_content', $udc_responses[ array_rand( $udc_responses ) ] );
+						foreach ( $keywords as $keyword ) {
+							foreach ( $words as $word ) {
+								if ( preg_match( "#$keyword#", $word ) ) {
+									$points++;
+								}
+								if ( $topic[ self::$FIELDS['topic_id'] ] == $word ) {
+									$points++;
+								}
+								if ( $topic[ self::$FIELDS['topic_id'] ] == $this->state['topic']) {
+									$points++;
+								}
+							}
+						}
+
+						if ( $points ) {
+							$responses    = wp_list_pluck( $set[ self::$FIELDS['topic_responses'] ], self::$FIELDS['topic_response'] );
+							if ( $responses ) {
+								$alert        = $set[ self::$FIELDS['topic_alert'] ];
+								$goto         = $set[ self::$FIELDS['topic_goto'] ];
+								$confirmation = $set[ self::$FIELDS['topic_confirmation'] ];
+
+								$matches[] = compact( 'points', 'confirmation', 'responses', 'alert', 'goto' );
+							}
+						}
+					}
+				}
+
+				if ( $matches ) {
+					/** Sort by score. */
+					usort( $matches, function( $a, $b ) {
+						if ( $a['points'] == $b['points'] ) {
+							return rand( -1, 1 );
+						}
+						return $a['points'] < $b['points'] ? 1 : -1;
+					} );
+
+					$match = array_shift( $matches );
+
+					if ( $match['confirmation'] ) {
+						$this->state['confirm'] = $match;
+						$response[] = apply_filters( 'the_content', $match['confirmation'] );
+					} else {
+						$response[] = apply_filters( 'the_content', $match['responses'][ array_rand( $match['responses'] ) ] );
+
+						if ( $match['alert'] && ( $emails = explode( ',', $this->get_field( self::$FIELDS['humans'], '' ) ) ) ) {
+							foreach ( $emails as $email ) {
+								if ( is_email( $email = trim( $email ) ) ) {
+									wp_mail( $email, __( 'Chat Bot Log', 'arniebot' ), implode( "\n", $this->state['log'] ) );
+								}
+							}
+						}
+
+						if ( $match['goto'] ) {
+							$this->state['goto'] = $match['goto'];
+						}
+					}
 				} else {
-					$response[] = __( 'A UDC response has not been defined for this bot.', 'arniebot' );
+					/** Pick a UDC line. */
+					$udc_responses = wp_list_pluck(
+						$this->get_field( self::$FIELDS['generics']['udc_responses'] ),
+						self::$FIELDS['generics']['udc_response']
+					);
+
+					if ( $udc_responses ) {
+						$response[] = apply_filters( 'the_content', $udc_responses[ array_rand( $udc_responses ) ] );
+					} else {
+						$response[] = __( 'A UDC response has not been defined for this bot.', 'arniebot' );
+					}
 				}
 			}
 		}
