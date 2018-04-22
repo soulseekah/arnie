@@ -244,7 +244,7 @@ class Bot {
 										Field::make( 'rich_text', self::$FIELDS['topic_response'], __( 'Topic Response', 'arniebot' ) ),
 									) )
 									->setup_labels( array( 'plural_name' => __( 'Topic Responses', 'arniebot' ), 'singular_name' => __( 'Topic Response', 'arniebot' ) ) )
-									->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', substr(self::$FIELDS['topic_response'], 0, 10)) )
+									->set_header_template( sprintf( '<%%- jQuery( %s ).text() %%>', self::$FIELDS['topic_response'] ) )
 									->set_layout( 'tabbed-vertical' )
 									->set_collapsed( true ),
 								Field::make( 'checkbox', self::$FIELDS['topic_alert'], __( 'Alert humans.', 'arniebot' ) )
@@ -253,7 +253,7 @@ class Bot {
 									->set_help_text( __( 'The conversation will be weighted towards this topic ID , if exists.', 'arniebot' ) ),
 							) )
 							->setup_labels( array( 'plural_name' => __( 'Topic Sets', 'arniebot' ), 'singular_name' => __( 'Topic Set', 'arniebot' ) ) )
-							->set_header_template( sprintf( '<%%- %s %%>', substr(self::$FIELDS['topic_pattern'],0,10) ) )
+							->set_header_template( sprintf( '<%%- %s %%>', self::$FIELDS['topic_pattern'] ) )
 							->set_layout( 'tabbed-vertical' )
 							->set_collapsed( true ),
 					) )
