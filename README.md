@@ -1,5 +1,6 @@
 # A.R.N.I.E
 
+In English: https://codeseekah.com/2018/04/23/do_action-moscow-2018/
 
 **A.R.N.I.E** - Automated Reactive Native Intelligent Entity
 
