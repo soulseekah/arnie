@@ -36,7 +36,7 @@
 				message = this.filterString(message);
 				if(message !== ''){
 					$( this.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--user">' + message + '</div>' );
-					self.scrollDown();
+					this.scrollDown();
 				}
 				var data = {'message': message, 'state': this.state},
 					//if first request - POST, otherwise - PUT
