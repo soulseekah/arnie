@@ -5,6 +5,7 @@
 			botWrapperClass: '.arniebot',
 			userMessageClass: '.client-board__message',
 			chatClass: '.arniebot__chat',
+			chatMessageClass: '.arniebot__chat__message',
 			interval: 15000, // 15 sec
 			state: null,
 			soundPath: null,
@@ -35,6 +36,7 @@
 				message = this.filterString(message);
 				if(message !== ''){
 					$( this.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--user">' + message + '</div>' );
+					self.scrollDown();
 				}
 				var data = {'message': message, 'state': this.state},
 					//if first request - POST, otherwise - PUT
@@ -51,6 +53,7 @@
 						self.updateState( data.state );
 						if ( data.response.length != 0 ) {
 							$( self.chatClass ).append( '<div class="arniebot__chat__message arniebot__chat__message--bot">' + data.response + '</div>' );
+							self.scrollDown();
 							var audio = new Audio(self.soundPath);
 							audio.play();
 						}
@@ -75,8 +78,12 @@
 			updateState: function ( state ) {
 				this.state = state;
 			},
-			filterString: function ( str ) {
+			filterString: function ( str ) { // xss protect
 				return str.replace(/<.*?>/g, "");
+			},
+			scrollDown: function () {// scroll down
+				self = this;
+				$( self.chatClass ).animate( {scrollTop: $( self.chatMessageClass ).last()[0].offsetTop}, "slow" );
 			}
 		};
 
